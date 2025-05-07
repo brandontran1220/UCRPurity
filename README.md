@@ -1,4 +1,4 @@
-# ACM UCR Website Template
+# UCR Rice Purity Website
 
 ![Next.js](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/typescript-%23407ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
@@ -12,7 +12,7 @@
 ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)
 ## Figma
 
-[ACM UCR Website Template Figma Design File](https://www.figma.com/)
+[UCR Rice Purity Figma Design File](https://www.figma.com/design/RNtfzUCmLH1dX1v2hy8FBw/CS180?node-id=0-1&t=6Qx94pc92bm2oyzB-1)
 
 ## Node.js
 
