@@ -2,12 +2,12 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { ReactQueryClientProvider } from "@/utils/react-query";
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   weight: "400",
   variable: "--font-inter",
-  preload: true, 
+  preload: true,
 });
 
 export const metadata = {
