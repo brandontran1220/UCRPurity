@@ -1,27 +1,24 @@
-import React from 'react';
+import React from "react";
 
 const NavBar = () => {
   return (
-    <nav className="w-full flex justify-between items-center p-4 fixed top-4 left-94">
+    <nav className="fixed top-4 left-94 flex w-full items-center justify-between p-4">
       {/* Left side: UCRPurity */}
-      <div className="text-gray-800 font-Inter font-bold text-lg">
+      <div className="font-Inter text-lg font-bold text-gray-800">
         <span className="text-blue-600">UCR</span>Purity
       </div>
 
       {/* Right side: Nav links */}
-      <ul className="flex space-x-8 text-gray-800 font-Inter relative right-190">
+      <ul className="font-Inter relative right-190 flex space-x-8 text-gray-800">
         <li>
-          <a
-            href="#"
-            className="text-blue-600 border-b-2 border-blue-600"
-          >
+          <a href="#" className="border-b-2 border-blue-600 text-blue-600">
             Home
           </a>
         </li>
         <li>
           <a
             href="#"
-            className="border-b-2 border-transparent hover:text-blue-200 hover:border-blue-200"
+            className="border-b-2 border-transparent hover:border-blue-200 hover:text-blue-200"
           >
             Statistics
           </a>
@@ -29,7 +26,7 @@ const NavBar = () => {
         <li>
           <a
             href="#"
-            className="border-b-2 border-transparent hover:text-blue-200 hover:border-blue-200"
+            className="border-b-2 border-transparent hover:border-blue-200 hover:text-blue-200"
           >
             Team
           </a>
