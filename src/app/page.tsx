@@ -1,9 +1,7 @@
+import Error from "@/app/components/error";
+
 const Home = () => {
-  return (
-    <div className="flex h-screen w-screen items-center justify-center">
-      Hello World
-    </div>
-  );
+  return <Error />;
 };
 
 export default Home;
