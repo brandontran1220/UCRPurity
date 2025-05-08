@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@tanstack/react-query": "5.69.0",
-    "express": "^5.1.0",
     "lucide-react": "0.484.0",
     "next": "15.2.4",
     "react": "19.0.0",
@@ -38,25 +37,11 @@
     "prettier": "3.5.3",
     "prettier-plugin-tailwindcss": "0.6.11",
     "tailwindcss": "4.0.17",
-    "tailwindcss-font-inter": "^4.0.0",
     "typescript": "5.5.4",
     "typescript-eslint": "8.0.0"
   },
   "overrides": {
     "@types/react": "19.0.7",
     "@types/react-dom": "19.0.3"
-  },
-  "description": "![Next.js](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)\r ![TypeScript](https://img.shields.io/badge/typescript-%23407ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)\r ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)\r ![ReactQuery](https://img.shields.io/badge/React_Query-FF4154?style=for-the-badge&logo=react-query&logoColor=white)\r ![ShadCN](https://img.shields.io/badge/shadcn/ui-000000?style=for-the-badge&logo=shadcn/ui&logoColor=white)\r <br/>\r ![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white)\r ![Prettier](https://img.shields.io/badge/prettier-1A2C34?style=for-the-badge&logo=prettier&logoColor=F7BA3E)\r ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)\r ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)\r ## Figma",
-  "main": "next.config.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/brandontran1220/UCRPurity.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/brandontran1220/UCRPurity/issues"
-  },
-  "homepage": "https://github.com/brandontran1220/UCRPurity#readme"
+  }
 }
