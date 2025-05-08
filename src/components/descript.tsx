@@ -1,6 +1,6 @@
 const descript = () => {
   return (
-    <div className="font-inter text-center">
+    <div className="font-inter pt-15 text-center">
       <p className="text-2xl">
         The UCR Purity Test is a way for UCR students to track their
         <br />
