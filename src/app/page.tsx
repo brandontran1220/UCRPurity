@@ -3,7 +3,7 @@ import Descript from "@/components/descript";
 
 const Home = () => {
   return (
-    <div className="flex h-screen w-screen items-start justify-center pt-16">
+    <div className="flex flex-col items-center justify-center">
       <Title />
       <Descript />
     </div>
