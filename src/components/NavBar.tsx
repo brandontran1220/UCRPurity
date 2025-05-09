@@ -17,7 +17,7 @@ const NavBar = () => {
         </li>
         <li>
           <a
-            href="#"
+            href="/stats"
             className="border-b-2 border-transparent hover:border-blue-200 hover:text-blue-200"
           >
             Statistics
