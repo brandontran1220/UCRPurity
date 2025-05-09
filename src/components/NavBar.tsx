@@ -25,7 +25,7 @@ const NavBar = () => {
         </li>
         <li>
           <a
-            href="#"
+            href="/board"
             className="border-b-2 border-transparent hover:border-blue-200 hover:text-blue-200"
           >
             Team
