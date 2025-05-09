@@ -11,7 +11,7 @@ const NavBar = () => {
       {/* Right side: Nav links */}
       <ul className="font-Inter relative right-190 flex space-x-8 text-gray-800">
         <li>
-          <a href="#" className="border-b-2 border-blue-600 text-blue-600">
+          <a href="/" className="border-b-2 border-blue-600 text-blue-600">
             Home
           </a>
         </li>
