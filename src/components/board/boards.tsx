@@ -1,7 +1,6 @@
 import { board } from "@/data/Board";
 import BoardCard from "@/components/board/boardCard";
 
-
 const Board = () => {
   return (
     <div className="flex flex-col items-center justify-center gap-10">
