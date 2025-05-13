@@ -16,14 +16,17 @@ const NavBar = () => {
   ];
 
   return (
-    <nav className="flex w-full items-center justify-center gap-[430px] mt-5">
+    <nav className="mt-5 flex w-full items-center justify-center gap-[430px]">
       {/* Left side: UCRPurity as a link */}
-      <a href="/" className="font-Inter text-lg font-bold text-purity-black-100">
+      <a
+        href="/"
+        className="font-Inter text-purity-black-100 text-lg font-bold"
+      >
         <span className="text-blue-600">UCR</span>Purity
       </a>
 
       {/* Right side: Nav links */}
-      <ul className="font-Inter relative flex text-purity-black-100 space-x-9">
+      <ul className="font-Inter text-purity-black-100 relative flex space-x-9">
         {navItems.map((item) => (
           <li key={item.href}>
             <a
