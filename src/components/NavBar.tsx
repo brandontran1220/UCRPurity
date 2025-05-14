@@ -16,7 +16,7 @@ const NavBar = () => {
   ];
 
   return (
-    <nav className="mt-5 flex w-full items-center justify-center gap-[430px]">
+    <nav className="z-10 mt-5 flex w-full items-center justify-center gap-[430px]">
       {/* Left side: UCRPurity as a link */}
       <a
         href="/"

@@ -5,7 +5,7 @@ const Background = () => {
   const numImages = 30;
 
   return (
-    <div className="fixed inset-0 z-0 grid grid-cols-8 gap-4">
+    <div className="pointer-events-none fixed inset-0 z-0 grid grid-cols-8 gap-4">
       {Array.from({ length: numImages }).map((_, index) => (
         <Image
           key={index}

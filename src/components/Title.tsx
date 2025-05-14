@@ -1,6 +1,6 @@
 export default function Title() {
   return (
-    <div className="relative mt-[-3] w-full px-4 text-center">
+    <div className="relative mt-3 w-full px-4 text-center">
       <div className="flex items-center justify-center gap-6">
         {/* Left lines with "The Official" centered on top */}
         <div className="relative flex h-[5rem] flex-col items-center justify-center gap-3">
