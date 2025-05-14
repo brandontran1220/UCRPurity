@@ -1,5 +1,4 @@
 import Boards from "@/components/board/boards";
-import NavBar from "@/components/NavBar";
 
 const Board = () => {
   return (
