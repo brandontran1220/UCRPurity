@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { ReactQueryClientProvider } from "@/utils/react-query";
 import Background from "@/components/background";
 import NavBar from "@/components/NavBar";
+import Footer from "@/components/footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,10 +25,11 @@ type LayoutProps = {
 export default function RootLayout({ children }: LayoutProps) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} font-inter`}>
+      <body className={`${inter.variable} font-inter flex flex-col`}>
         <NavBar />
         <Background />
         <ReactQueryClientProvider>{children}</ReactQueryClientProvider>
+        <Footer />
       </body>
     </html>
   );
