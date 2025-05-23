@@ -1,5 +1,5 @@
-import Title from "@/components/Title"; // adjust path if needed
-import Descript from "@/components/descript";
+import Title from "@/components/home/Title"; // adjust path if needed
+import Descript from "@/components/home/descript";
 
 const Home = () => {
   return (
