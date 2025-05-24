@@ -6,35 +6,44 @@ import sillyRice from "@/public/sillyRice.svg";
 
 export default function Result({ score }) {
 
-    const messageArray = [
-        "Maybe you've done enough college..",
-        "Living college to the fullest!",
-        "You've had your fair share of UCR!",
-        "Get out and do more!",
-    ];
-
-    const avatarNames = [
-        "Dirty Rice Grain",
-        "Average Rice Grain",
-        "Silly Rice Grain",
-        "Pure Rice Grain",
-    ];
-
+    const riceProfiles = [
+        {
+          avatar: "a Dirty Rice Grain",
+          message: "Maybe you've done enough college.."
+        },
+        {
+          avatar: "an Average Rice Grain",
+          message: "Living college to the fullest!"
+        },
+        {
+          avatar: "a Silly Rice Grain",
+          message: "You've had your fair share of UCR!"
+        },
+        {
+          avatar: "a Pure Rice Grain",
+          message: "Get out and do more!"
+        }
+      ];
     let riceImage;
     let resultMessage;
+    let avatarName;
 
     if (score >= 0 && score <= 25) {
         riceImage = sadRice;
-        resultMessage = messageArray[0]
+        avatarName = riceProfiles[0].avatar
+        resultMessage = riceProfiles[0].message
       } else if (score > 25 && score <= 50) {
         riceImage = neutralRice;
-        resultMessage = messageArray[1]
+        avatarName = riceProfiles[1].avatar
+        resultMessage = riceProfiles[1].message
       } else if (score > 50 && score <= 75) {
         riceImage = sillyRice;
-        resultMessage = messageArray[2]
+        avatarName = riceProfiles[2].avatar
+        resultMessage = riceProfiles[2].message
       } else {
         riceImage = happyRice;
-        resultMessage = messageArray[3]
+        avatarName = riceProfiles[3].avatar
+        resultMessage = riceProfiles[3].message
       }
 
     return(
@@ -45,7 +54,7 @@ export default function Result({ score }) {
                 <div className="flex flex-col items-center justify-center">
                     <h1>Your Score</h1>
                     <h2>{score}</h2>
-                    <p>You're a Pure Rice Grain!</p>
+                    <p>You're {avatarName}!</p>
                     <p>{resultMessage}</p>
                 </div>
             </div>
