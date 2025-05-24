@@ -35,7 +35,7 @@ const footer = () => {
       <div className="pr-5 text-right">
         <Link
           href="https://linktr.ee/PurifiedRice_Members"
-          className="flex items-center justify-end gap-2 pb-18 font-semibold hover:text-white hover:underline"
+          className="mb-18 flex items-center justify-end gap-2 font-semibold hover:text-white hover:underline"
         >
           Follow Us On LinkedIn!
           <SiLinktree />
