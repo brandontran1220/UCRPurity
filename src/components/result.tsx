@@ -9,19 +9,19 @@ export default function Result({ score }) {
     const riceProfiles = [
         {
           avatar: "a Dirty Rice Grain",
-          message: "Maybe you've done enough college.."
+          message: "maybe you've done enough college.."
         },
         {
           avatar: "an Average Rice Grain",
-          message: "Living college to the fullest!"
+          message: "living college to the fullest!"
         },
         {
           avatar: "a Silly Rice Grain",
-          message: "You've had your fair share of UCR!"
+          message: "you've had your fair share of UCR!"
         },
         {
           avatar: "a Pure Rice Grain",
-          message: "Get out and do more!"
+          message: "get out and do more!"
         }
       ];
     let riceImage;
@@ -47,20 +47,20 @@ export default function Result({ score }) {
       }
 
     return(
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center font-inter">
             <div className="flex">
             <Image src={riceImage} alt="sad Rice" width={150} height={150} />
         
                 <div className="flex flex-col items-center justify-center">
-                    <h1>Your Score</h1>
-                    <h2>{score}</h2>
-                    <p>You're {avatarName}!</p>
-                    <p>{resultMessage}</p>
+                    <h1 className="text-5xl ">Your Score</h1>
+                    <h2 className="text-4xl text-purity-blue-100 font-bold"> {score}</h2>
+                    <p className="text-xl">You're <span className="font-bold">{avatarName}!</span></p>
+                    <p className="font-extralight text-sm italic">{resultMessage}</p>
                 </div>
             </div>
             <a href="/"><button>Take Again!</button></a>
-            <p>Thanks for your submission!</p>
-            <p>The UCRPurity Test was created by the Purified Rice Team</p>
+            <p className="text-lg font-light">Thanks for your submission!</p>
+            <p className="text-lg font-light">The UCRPurity Test was created by the Purified Rice Team</p>
         </div>
     )
 }
