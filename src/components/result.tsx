@@ -47,20 +47,20 @@ export default function Result({ score }) {
       }
 
     return(
-        <div className="flex flex-col items-center justify-center font-inter">
+        <div className="flex flex-col items-center justify-center font-inter mt-[140px]">
             <div className="flex">
-            <Image src={riceImage} alt="sad Rice" width={150} height={150} />
+            <Image src={riceImage} alt="sad Rice" width={300} height={300} />
         
                 <div className="flex flex-col items-center justify-center">
                     <h1 className="text-5xl ">Your Score</h1>
-                    <h2 className="text-4xl text-purity-blue-100 font-bold"> {score}</h2>
+                    <h2 className="text-6xl text-purity-blue-100 font-bold m-[27px]"> {score}</h2>
                     <p className="text-xl">You're <span className="font-bold">{avatarName}!</span></p>
                     <p className="font-extralight text-sm italic">{resultMessage}</p>
                 </div>
             </div>
-            <a href="/"><button>Take Again!</button></a>
-            <p className="text-lg font-light">Thanks for your submission!</p>
-            <p className="text-lg font-light">The UCRPurity Test was created by the Purified Rice Team</p>
+            <a href="/"><button className="m-[50px]">Take Again!</button></a>
+            <p className="text-3xl font-light">Thanks for your submission!</p>
+            <p className="text-2xl font-light m-[20px]">The UCRPurity Test was created by the Purified Rice Team</p>
         </div>
     )
 }
