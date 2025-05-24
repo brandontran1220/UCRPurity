@@ -23,7 +23,7 @@ const BoardCard = ({ linkedin, name, image }: BoardProps) => {
       </div>
       <div className="text-purity-blue-100 mt-2 flex items-center text-center text-xl font-semibold">
         <p>{name}</p>
-        <p className="ml-3">
+        <p className="ml-3 hover:text-black">
           <Link href={linkedin}>
             <FaLinkedin />
           </Link>
