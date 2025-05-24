@@ -38,7 +38,7 @@ const Questions: React.FC = () => {
   };
 
   return (
-    <div className="questions-container flex flex-col w-full px-6 space-y-3 pb-10">
+    <div className="questions-container flex flex-col w-full px-6 space-y-3">
       {questions.map((question: string, index: number) => (
         <div key={index} className="question-block">
           <div
@@ -71,7 +71,7 @@ const Questions: React.FC = () => {
         </div>
       ))}      
       
-      <div className="submit-section flex justify-center mt-8">
+      <div className="submit-section flex justify-center">
         <SubmitButton onClick={handleSubmit} />
       </div>
     </div>
