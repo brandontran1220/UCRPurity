@@ -4,7 +4,11 @@ import neutralRice from "@/public/neutralRice.svg";
 import happyRice from "@/public/happyRice.svg";
 import sillyRice from "@/public/sillyRice.svg";
 
-export default function Result({ score }) {
+type ResultProps = {
+  score: number;
+};
+export default function Result({ score }: ResultProps) {
+  
   const riceProfiles = [
     {
       avatar: "a Dirty Rice Grain",
