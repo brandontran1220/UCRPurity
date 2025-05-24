@@ -86,7 +86,7 @@ export const questions = [
     "Fed ducks at the Botanic Gardens.",
     "Heard/Seen “Mr. Dapper” around campus IYKYK (@19_hectogoon_25)",
     "Heard/Seen “Rockstar Legend” around campus IYKYK",
-    "Heard/Seen the “Tourette’s Guy” in the SSC (yelling guy)",
+    "Got a parking ticket from TAPS",
     "Heard of the Bell Tower Climber",
     "Mistaken Glasgow’s manager as Gus Fring from Breaking Bad",
     "Been approached to sign a petition and couldn’t say no.",
