@@ -8,7 +8,6 @@ type ResultProps = {
   score: number;
 };
 export default function Result({ score }: ResultProps) {
-  
   const riceProfiles = [
     {
       avatar: "a Dirty Rice Grain",
