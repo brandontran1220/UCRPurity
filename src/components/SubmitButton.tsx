@@ -1,11 +1,14 @@
 "use client";
-import { useRouter } from "next/navigation";
 
-const SubmitButton = () => {
-  const router = useRouter();
+interface SubmitButtonProps {
+  onClick?: () => void;
+}
 
+const SubmitButton = ({ onClick }: SubmitButtonProps) => {
   const handleClick = () => {
-    router.push("/stats");
+    if (onClick) {
+      onClick();
+    }
   };
 
   return (

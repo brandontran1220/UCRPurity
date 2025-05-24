@@ -2,6 +2,8 @@
 
 import React, {useState, useEffect } from "react";
 import {questions} from "@/data/Questions";
+import SubmitButton from "../SubmitButton";
+import { IoIosCheckmark } from "react-icons/io";
 
 interface UserAnswers {
   [questionIndex: number]: boolean; 
@@ -9,8 +11,6 @@ interface UserAnswers {
 
 const Questions: React.FC = () => {
   const [userAnswers, setUserAnswers] = useState<UserAnswers>({});
-  const [isComplete, setIsComplete] = useState(false);
-
 
   useEffect(() => {
     const initialAnswers: UserAnswers = {};
@@ -20,16 +20,24 @@ const Questions: React.FC = () => {
     setUserAnswers(initialAnswers);
   }, []);
 
-  useEffect(() => {
-    const answeredCount = Object.values(userAnswers).filter(answer => answer === true).length;
-    setIsComplete(answeredCount > 0);
-  }, [userAnswers]);
-
   const handleQuestionToggle = (questionIndex: number) => {
     setUserAnswers(prev => ({
       ...prev,
       [questionIndex]: !prev[questionIndex]
-    }));  };  return (
+    }));
+  };
+
+  const calculateScore = () => {
+    const answeredCount = Object.values(userAnswers).filter(answer => answer === true).length;
+    return 100 - answeredCount;
+  };
+
+  const handleSubmit = () => {
+    const score = calculateScore();
+    window.location.href = `/result?score=${score}`;
+  };
+
+  return (
     <div className="questions-container flex flex-col w-full px-6 space-y-3 pb-10">
       {questions.map((question: string, index: number) => (
         <div key={index} className="question-block">
@@ -50,19 +58,8 @@ const Questions: React.FC = () => {
                   ? 'bg-purity-blue-200 border-blue-200 text-white'
                   : 'bg-white border-gray-300 hover:border-blue-200'
               }`}
-            >
-              {userAnswers[index] && (
-                <svg 
-                  className="w-4 h-4" 
-                  fill="currentColor" 
-                  viewBox="0 0 20 20"
-                >
-                  <path 
-                    fillRule="evenodd" 
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" 
-                    clipRule="evenodd" 
-                  />
-                </svg>
+            >              {userAnswers[index] && (
+                <IoIosCheckmark className="w-full h-full text-white" />
               )}
             </div>
             <span className={`question-text flex-1 transition-colors duration-200 ${
@@ -73,13 +70,10 @@ const Questions: React.FC = () => {
           </div>
         </div>
       ))}      
-      {isComplete && (
-        <div className="completion-message bg-gradient-to-r from-blue-100 to-blue-200 border border-blue-300 rounded-lg p-6 mt-8 shadow-md">
-          <p className="text-blue-800 font-semibold text-center">
-            🎓 You've experienced {Object.values(userAnswers).filter(answer => answer === true).length} out of {questions.length} UCR experiences!
-          </p>
-        </div>
-      )}
+      
+      <div className="submit-section flex justify-center mt-8">
+        <SubmitButton onClick={handleSubmit} />
+      </div>
     </div>
   );
 };
