@@ -3,7 +3,7 @@ import Result from "@/components/result";
 const Results = () => {
     return (
       <div>
-        <Result score = {80} />
+        <Result score = {10} />
       </div>
     );
   };

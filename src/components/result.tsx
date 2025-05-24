@@ -1,5 +1,5 @@
 import Image from "next/image"
-import sadRice from "@/public/sadRice.svg";
+import dirtyRice from "@/public/dirtyRice.svg";
 import neutralRice from "@/public/neutralRice.svg";
 import happyRice from "@/public/happyRice.svg";
 import sillyRice from "@/public/sillyRice.svg";
@@ -29,7 +29,7 @@ export default function Result({ score }) {
     let avatarName;
 
     if (score >= 0 && score <= 25) {
-        riceImage = sadRice;
+        riceImage = dirtyRice;
         avatarName = riceProfiles[0].avatar
         resultMessage = riceProfiles[0].message
       } else if (score > 25 && score <= 50) {
@@ -59,8 +59,8 @@ export default function Result({ score }) {
                 </div>
             </div>
             <a href="/"><button className="m-[50px]">Take Again!</button></a>
-            <p className="text-3xl font-light">Thanks for your submission!</p>
-            <p className="text-2xl font-light m-[20px]">The UCRPurity Test was created by the Purified Rice Team</p>
+            <p className="text-2xl font-light">Thanks for your submission!</p>
+            <p className="text-xl font-light m-[20px]">The UCRPurity Test was created by the Purified Rice Team</p>
         </div>
     )
 }
