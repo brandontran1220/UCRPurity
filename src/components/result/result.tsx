@@ -3,6 +3,7 @@ import dirtyRice from "@/public/dirtyRice.svg";
 import neutralRice from "@/public/neutralRice.svg";
 import happyRice from "@/public/happyRice.svg";
 import sillyRice from "@/public/sillyRice.svg";
+import TakeAgainBut from "./takeAgainBut";
 
 type ResultProps = {
   score: number;
@@ -55,8 +56,7 @@ export default function Result({ score }: ResultProps) {
 
         <div className="flex flex-col items-center justify-center">
           <h1 className="text-5xl">Your Score</h1>
-          <h2 className="text-purity-blue-100 m-[27px] text-6xl font-bold">
-            {" "}
+          <h2 className="text-purity-blue-200 m-[27px] text-6xl font-bold">
             {score}
           </h2>
           <p className="text-xl">
@@ -65,9 +65,7 @@ export default function Result({ score }: ResultProps) {
           <p className="text-sm font-extralight italic">{resultMessage}</p>
         </div>
       </div>
-      <a href="/">
-        <button className="m-[50px]">Take Again!</button>
-      </a>
+      <TakeAgainBut />
       <p className="text-2xl font-light">Thanks for your submission!</p>
       <p className="m-[20px] text-xl font-light">
         The UCRPurity Test was created by the Purified Rice Team
