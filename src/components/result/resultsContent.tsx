@@ -2,8 +2,9 @@
 
 import Result from "@/components/result/result";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-const ResultsContent = () => {
+function ResultsContentInner() {
   const searchParams = useSearchParams();
   const score = searchParams.get("score")
     ? parseInt(searchParams.get("score")!, 10)
@@ -15,6 +16,14 @@ const ResultsContent = () => {
     <div>
       <Result score={validScore} />
     </div>
+  );
+}
+
+const ResultsContent = () => {
+  return (
+    <Suspense fallback={<div>Loading results...</div>}>
+      <ResultsContentInner />
+    </Suspense>
   );
 };
 
