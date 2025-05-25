@@ -1,19 +1,7 @@
-import Result from "@/components/result/result";
+import ResultsContent from "@/components/result/resultsContent";
 
-interface ResultsPageProps {
-  searchParams: { score?: string };
-}
-
-const Results = ({ searchParams }: ResultsPageProps) => {
-  const score = searchParams.score ? parseInt(searchParams.score, 10) : 100;
-
-  const validScore = Math.max(0, Math.min(100, score));
-
-  return (
-    <div>
-      <Result score={validScore} />
-    </div>
-  );
+const Results = () => {
+  return <ResultsContent />;
 };
 
 export default Results;
