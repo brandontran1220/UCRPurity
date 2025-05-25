@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { questions } from "@/data/Questions";
-import SubmitButton from "../SubmitButton";
+import SubmitButton from "./SubmitButton";
 import { IoIosCheckmark } from "react-icons/io";
 
 interface UserAnswers {

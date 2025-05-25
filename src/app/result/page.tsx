@@ -1,4 +1,4 @@
-import Result from "@/components/result";
+import Result from "@/components/result/result";
 
 const Results = () => {
   return (
