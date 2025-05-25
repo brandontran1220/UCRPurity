@@ -1,13 +1,13 @@
-import Title from "@/components/Title"; // adjust path if needed
-import Descript from "@/components/descript";
-import SubmitButton from "@/components/SubmitButton";
+import Title from "@/components/home/Title";
+import Descript from "@/components/home/descript";
+import Questions from "@/components/home/questions";
 
 const Home = () => {
   return (
     <div className="flex flex-col items-center justify-center">
       <Title />
       <Descript />
-      <SubmitButton />
+      <Questions />
     </div>
   );
 };

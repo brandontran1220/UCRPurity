@@ -1,11 +1,7 @@
-import Result from "@/components/result";
+import ResultsContent from "@/components/result/resultsContent";
 
 const Results = () => {
-  return (
-    <div>
-      <Result score={100} />
-    </div>
-  );
+  return <ResultsContent />;
 };
 
 export default Results;

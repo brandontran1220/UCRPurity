@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import sadRice from "@/public/sadRice.svg";
-import ErrorButton from "../ErrorButton";
+import ErrorButton from "./ErrorButton";
 
 const Error = () => {
   return (
