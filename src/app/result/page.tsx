@@ -1,9 +1,11 @@
-const Result = () => {
+import Result from "@/components/result";
+
+const Results = () => {
   return (
-    <div className="flex h-screen w-screen items-center justify-center">
-      Result
+    <div>
+      <Result score={100} />
     </div>
   );
 };
 
-export default Result;
+export default Results;
