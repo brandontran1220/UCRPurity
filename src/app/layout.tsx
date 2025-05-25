@@ -24,11 +24,15 @@ type LayoutProps = {
 
 export default function RootLayout({ children }: LayoutProps) {
   return (
-    <html lang="en">
-      <body className={`${inter.variable} font-inter flex flex-col`}>
+    <html lang="en" className="h-full">
+      <body
+        className={`${inter.variable} font-inter flex min-h-screen flex-col`}
+      >
         <NavBar />
         <Background />
-        <ReactQueryClientProvider>{children}</ReactQueryClientProvider>
+        <main className="flex-1">
+          <ReactQueryClientProvider>{children}</ReactQueryClientProvider>
+        </main>
         <Footer />
       </body>
     </html>
