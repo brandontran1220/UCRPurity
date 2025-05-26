@@ -2,7 +2,7 @@ import Boards from "@/components/board/boards";
 
 const Board = () => {
   return (
-    <div className="flex min-h-full flex-col">
+    <div className="flex flex-col min-h-full">
       <Boards />
     </div>
   );

@@ -12,17 +12,17 @@ const NavBar = () => {
   ];
 
   return (
-    <nav className="z-10 mt-5 flex w-full items-center justify-center gap-[430px]">
+    <nav className="z-10 mt-5 flex w-full items-center justify-around">
       {/* Left side: UCRPurity as a link */}
       <a
         href="/"
-        className="font-Inter text-purity-black-100 text-lg font-bold"
+        className="font-Inter text-purity-black-100 text-3xl font-bold"
       >
         <span className="text-blue-600">UCR</span>Purity
       </a>
 
       {/* Right side: Nav links */}
-      <ul className="font-Inter text-purity-black-100 relative flex space-x-9">
+      <ul className="font-Inter text-purity-black-100 relative flex space-x-9 text-xl">
         {navItems.map((item) => (
           <li key={item.href}>
             <a
