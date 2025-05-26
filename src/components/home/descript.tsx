@@ -8,7 +8,6 @@ const descript = () => {
         <br />
         are completed)
       </p>
-      <p className="pt-5 text-lg">Click on all items you have done!</p>
     </div>
   );
 };
