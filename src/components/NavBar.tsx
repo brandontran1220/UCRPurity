@@ -12,7 +12,7 @@ const NavBar = () => {
   ];
 
   return (
-    <nav className="z-10 mt-5 flex w-full items-center justify-around">
+    <nav className="z-10 mt-5 flex w-full items-center justify-between px-8">
       {/* Left side: UCRPurity as a link */}
       <a
         href="/"
