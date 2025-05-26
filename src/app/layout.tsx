@@ -26,7 +26,7 @@ export default function RootLayout({ children }: LayoutProps) {
   return (
     <html lang="en" className="h-full">
       <body
-        className={`${inter.variable} font-inter flex flex-col min-h-screen`}
+        className={`${inter.variable} font-inter flex min-h-screen flex-col`}
       >
         <NavBar />
         <Background />

@@ -4,7 +4,7 @@ import Descript from "@/components/home/descript";
 
 const Results = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-full">
+    <div className="flex min-h-full flex-col items-center justify-center">
       <Title />
       <Descript />
       <ResultsContent />
