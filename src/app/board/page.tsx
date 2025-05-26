@@ -4,7 +4,7 @@ import BoardDescript from "@/components/board/boardDescript";
 
 const Board = () => {
   return (
-    <div>
+    <div className="flex min-h-full flex-col">
       <BoardTitle />
       <Boards />
       <BoardDescript />

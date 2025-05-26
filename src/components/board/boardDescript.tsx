@@ -1,17 +1,16 @@
 import Image from "next/image";
-import Link from "next/link";
 import Rice from "@/public/goofyRice.svg";
 
 const boardDescript = () => {
   return (
-    <div className="mx-86 my-20 flex flex-col items-center justify-center rounded-xl bg-blue-200 p-10 shadow-xl">
-      <div className="felx-col font-inter flex items-center justify-center text-center text-2xl font-bold">
-        <Link href="/">
+    <div className="relative mx-auto my-20 flex w-145 flex-col items-center justify-center rounded-xl bg-blue-200 p-10 shadow-xl">
+      <div className="mb-10 flex w-full items-center justify-center">
+        <div className="absolute left-30">
           <Image src={Rice} alt="Goofy Rice" width={100} height={100} />
-        </Link>
-        Who We Are
+        </div>
+        <p className="font-inter text-center text-2xl font-bold">Who We Are</p>
       </div>
-      <div className="">
+      <div>
         <p className="text-md font-inter text-center font-normal text-blue-800">
           We are a team of 5 UCR student developers trying to blend UCR campus
           life with tech to create something fun and relatable for our peers.
