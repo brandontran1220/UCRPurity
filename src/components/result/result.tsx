@@ -50,7 +50,7 @@ export default function Result({ score }: ResultProps) {
   }
 
   return (
-    <div className="font-inter mt-[140px] flex flex-col items-center justify-center">
+    <div className="font-inter flex flex-col items-center justify-center">
       <div className="flex">
         <Image src={riceImage} alt="sad Rice" width={300} height={300} />
 

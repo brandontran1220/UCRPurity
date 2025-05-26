@@ -9,9 +9,9 @@ export default function Title() {
             The Official
           </span>
 
-          <div className="h-[4px] w-60 bg-black"></div>
-          <div className="h-[4px] w-60 bg-black"></div>
-          <div className="h-[4px] w-60 bg-black"></div>
+          <div className="h-[4px] w-[25vw] bg-black"></div>
+          <div className="h-[4px] w-[25vw] bg-black"></div>
+          <div className="h-[4px] w-[25vw] bg-black"></div>
         </div>
 
         {/* Title text */}
@@ -22,9 +22,9 @@ export default function Title() {
 
         {/* Right lines */}
         <div className="flex h-[5rem] flex-col justify-center gap-3">
-          <div className="h-[4px] w-60 bg-black"></div>
-          <div className="h-[4px] w-60 bg-black"></div>
-          <div className="h-[4px] w-60 bg-black"></div>
+          <div className="h-[4px] w-[25vw] bg-black"></div>
+          <div className="h-[4px] w-[25vw] bg-black"></div>
+          <div className="h-[4px] w-[25vw] bg-black"></div>
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ import Questions from "@/components/home/questions";
 
 const Home = () => {
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex min-h-full flex-col items-center justify-center py-8">
       <Title />
       <Descript />
       <Questions />

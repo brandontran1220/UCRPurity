@@ -41,6 +41,7 @@ const Questions: React.FC = () => {
 
   return (
     <div className="questions-container flex w-full flex-col space-y-3 px-6">
+      <p className="mx-auto pb-5 text-lg">Click on all items you have done!</p>
       {questions.map((question: string, index: number) => (
         <div key={index} className="question-block">
           <div
