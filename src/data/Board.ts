@@ -8,26 +8,26 @@ export const board = [
   {
     image: Brandon,
     name: "Brandon Tran",
-    position: "Founder",
+    linkedin: "https://www.linkedin.com/in/brandon-tran1220/",
   },
   {
     image: Aaron,
     name: "Aaron Huynh",
-    position: "Founder",
+    linkedin: "https://www.linkedin.com/in/aaron-huynh-2930b4253/",
   },
   {
     image: Zach,
     name: "Zachary Nobunaga",
-    position: "Founder",
+    linkedin: "https://www.linkedin.com/in/zacharynobunaga/",
   },
   {
     image: Dillion,
     name: "Dillon Ho Huynh",
-    position: "Founder",
+    linkedin: "https://www.linkedin.com/in/dillonhoh/",
   },
   {
     image: Tony,
     name: "Tony Zhou",
-    position: "Founder",
+    linkedin: "https://www.linkedin.com/in/tony-zhou-055b2124b/",
   },
 ];
