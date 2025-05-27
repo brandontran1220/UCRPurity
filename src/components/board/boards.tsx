@@ -3,8 +3,8 @@ import BoardCard from "@/components/board/boardCard";
 
 const Board = () => {
   return (
-    <div className="flex min-h-full flex-col items-center justify-center gap-10 py-10">
-      <div className="flex gap-20">
+    <div className="flex min-h-full flex-col items-center justify-center md:gap-10 md:py-10">
+      <div className="grid grid-cols-1 md:flex md:gap-20">
         {board.slice(0, 3).map(({ name, linkedin, image }, index) => (
           <BoardCard
             key={index}
@@ -14,7 +14,7 @@ const Board = () => {
           />
         ))}
       </div>
-      <div className="flex gap-20">
+      <div className="grid grid-cols-1 md:flex md:gap-20">
         {board.slice(3, 5).map(({ name, linkedin, image }, index) => (
           <BoardCard
             key={index}

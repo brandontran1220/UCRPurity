@@ -12,7 +12,7 @@ interface BoardProps {
 const BoardCard = ({ linkedin, name, image }: BoardProps) => {
   return (
     <div className="font-inter flex flex-col items-center">
-      <div className="relative flex h-60 w-60">
+      <div className="relative flex h-40 w-40 md:h-60 md:w-60">
         <Image
           src={image}
           alt="boardmember"
@@ -21,7 +21,7 @@ const BoardCard = ({ linkedin, name, image }: BoardProps) => {
           className="h-full w-full rounded-2xl object-cover"
         />
       </div>
-      <div className="text-purity-blue-100 mt-2 flex items-center text-center text-xl font-semibold">
+      <div className="text-purity-blue-100 m-2 flex items-center text-center text-base font-semibold md:text-xl">
         <p>{name}</p>
         <p className="ml-3 hover:text-black">
           <Link href={linkedin}>
