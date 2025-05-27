@@ -11,7 +11,7 @@ interface BoardProps {
 
 const BoardCard = ({ linkedin, name, image }: BoardProps) => {
   return (
-    <div className="font-inter flex flex-col items-center">
+    <div className="font-inter mt-3 flex flex-col items-center">
       <div className="relative flex h-40 w-40 md:h-60 md:w-60">
         <Image
           src={image}
