@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Rice from "@/public/happyRice.svg";
-import { SiLinktree } from "react-icons/si";
+import { FaLinkedin } from "react-icons/fa";
 
 const quotes = [
   "Live your life to the fullest and enjoy every moment!",
@@ -21,26 +21,33 @@ const quotes = [
 
 const footer = () => {
   return (
-    <div className="bg-purity-blue-200 font-inter flex w-full items-center justify-between py-1 text-black">
-      <div className="pr-30">
-        <p className="pl-5">Built By</p>
-        <p className="pl-17 font-black">Purified Rice</p>
-        <Link href="/">
-          <Image src={Rice} alt="Happy Rice" width={100} height={100} />
+    <div className="bg-purity-blue-200 font-inter grid w-full grid-cols-1 items-center justify-between py-1 text-black md:grid-cols-3">
+      <div className="flex flex-col items-center md:items-start md:pr-30">
+        <p className="hidden pl-5 md:block">Built By</p>
+        <p className="hidden pl-17 font-black md:block">Purified Rice</p>
+        <Link href="/" className="md:justify-end">
+          <Image
+            src={Rice}
+            alt="Happy Rice"
+            className="h-[70px] w-[70px] md:h-[100px] md:w-[100px]"
+          />
         </Link>
       </div>
-      <div className="flex flex-col items-center justify-center text-center">
-        <p>{quotes[Math.floor(Math.random() * quotes.length)]}</p>
+      <div className="flex flex-col items-center justify-center text-center md:my-0">
+        <p className="hidden md:block">
+          {quotes[Math.floor(Math.random() * quotes.length)]}
+        </p>
       </div>
-      <div className="pr-5 text-right">
+      <div className="flex flex-col items-center justify-center text-center md:items-end md:pr-5 md:text-right">
         <Link
           href="https://linktr.ee/PurifiedRice_Members"
-          className="mb-18 flex items-center justify-end gap-2 font-semibold hover:text-white hover:underline"
+          className="mt-3 mb-3 flex items-center justify-end gap-2 font-semibold hover:text-white hover:underline md:mb-23"
         >
-          Follow Us On LinkedIn!
-          <SiLinktree />
+          <p className="hidden md:block">Follow Us On LinkedIn!</p>
+          <p className="text-3xl md:text-xl">
+            <FaLinkedin />
+          </p>
         </Link>
-        <p>Created in May 2025</p>
         <p>@ University of California-Riverside</p>
       </div>
     </div>
