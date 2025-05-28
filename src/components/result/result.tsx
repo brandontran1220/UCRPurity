@@ -54,7 +54,7 @@ export default function Result({ score }: ResultProps) {
     <div className="font-inter flex flex-col items-center justify-center">
       {/* Screenshot target container */}
       <div id="result-screenshot" className="py-8">
-        <div className="flex">
+        <div className="flex flex-col items-center md:flex-row">
           <Image src={riceImage} alt="sad Rice" width={300} height={300} />
 
           <div className="flex flex-col items-center justify-center">
