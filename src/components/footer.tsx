@@ -41,18 +41,19 @@ const footer = () => {
       <div className="flex flex-col items-center justify-center text-center md:items-end md:pr-5 md:text-right">
         <Link
           href="https://linktr.ee/PurifiedRice_Members"
-          className="mt-3 mb-3 flex items-center justify-end gap-2 font-semibold hover:text-white hover:underline md:mb-23">
+          className="mt-3 mb-3 flex items-center justify-end gap-2 font-semibold hover:text-white hover:underline md:mb-23"
+        >
           <p className="hidden md:block">Follow Us On LinkedIn!</p>
           <p className="md:hidden">Purified Rice</p>
           <p className="text-3xl md:text-xl">
             <FaLinkedin />
           </p>
         </Link>
-          <p className="hidden md:block">@ University of California-Riverside</p>
-          {/* <p className="md:hidden pl-5 text-2xl md:text-xl">
+        <p className="hidden md:block">@ University of California-Riverside</p>
+        {/* <p className="md:hidden pl-5 text-2xl md:text-xl">
               <FaLinkedin />
           </p> */}
-        </div>
+      </div>
     </div>
   );
 };
