@@ -34,7 +34,7 @@ export const questions = [
   "Seen people making out in the Rivera Study Rooms",
   "Forgot the difference between NetID and StudentID",
   "Regret your R’Card picture",
-  'Asked someone why they chose UCR, and they gave you the classic answer: \“It was my only choice." ',
+  'Asked someone why they chose UCR, and they gave you the classic answer: “It was my only choice." ',
   "Been to the San Bernardino/Riverside Bins",
   "Been to Red Castle",
   "Been to China Wok Inn",
