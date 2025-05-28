@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { FiMenu, FiX } from "react-icons/fi"; // for "hamburger and the close icons"
+import { FiMenu, FiX } from "react-icons/fi"; // for "hamburger icon"
 
 const NavBar = () => {
   const currentPath = usePathname();
@@ -21,11 +21,11 @@ const NavBar = () => {
           href="/"
           className="font-Inter text-purity-black-100 text-3xl font-bold"
         >
-          <span className="text-blue-600">UCR</span>Purity
+          <span className="text-purity-blue-200">UCR</span>Purity
         </a>
 
         {/* desktop nav */}
-        <ul className="font-Inter text-purity-black-100 hidden space-x-9 text-xl md:flex">
+        <ul className="font-Inter hidden space-x-9 text-xl md:flex">
           {navItems.map((item) => (
             <li key={item.href}>
               <a
@@ -33,7 +33,7 @@ const NavBar = () => {
                 className={`border-b-2 transition-all duration-200 ${
                   currentPath === item.href
                     ? "border-purity-blue-200 text-purity-blue-200"
-                    : "border-transparent hover:border-blue-200 hover:text-blue-200"
+                    : "hover:border-purity-blue-200 hover:text-purity-blue-200 border-transparent"
                 }`}
               >
                 {item.label}
@@ -44,33 +44,30 @@ const NavBar = () => {
 
         {/* mobile "hamburger icon" */}
         <button
-          className="text-3xl text-blue-600 md:hidden"
+          className="text-purity-blue-200 text-3xl md:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? <FiX /> : <FiMenu />}
         </button>
       </div>
 
-      {/* mobile menu (drop down) */}
+      {/* mobile nav */}
       {menuOpen && (
-        <div className="bg-purity-white-100 absolute top-20 right-0 z-50 w-3/4 max-w-xs rounded-lg p-6 shadow-lg md:hidden">
-          <ul className="flex flex-col space-y-4 text-right text-xl font-semibold text-blue-700">
-            {navItems.map((item) => (
-              <li key={item.href}>
-                <a
-                  href={item.href}
-                  onClick={() => setMenuOpen(false)}
-                  className={`transition ${
-                    currentPath === item.href
-                      ? "text-blue-600 underline"
-                      : "hover:text-blue-500"
-                  }`}
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
+        <div className="font-Inter text-purity-blue-200 mt-4 flex flex-col items-center space-y-4 text-center text-xl font-semibold md:hidden">
+          {navItems.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              onClick={() => setMenuOpen(false)}
+              className={`transition ${
+                currentPath === item.href
+                  ? "underline"
+                  : "hover:text-purity-blue-200"
+              }`}
+            >
+              {item.label}
+            </a>
+          ))}
         </div>
       )}
     </nav>
