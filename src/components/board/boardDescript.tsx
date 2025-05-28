@@ -3,7 +3,7 @@ import Rice from "@/public/goofyRice.svg";
 
 const boardDescript = () => {
   return (
-    <div className="bg-purity-blue-100 relative mx-auto my-20 flex w-60 flex-col items-center justify-center rounded-xl p-5 shadow-xl md:w-145 md:p-10">
+    <div className="bg-purity-blue-200 relative mx-auto my-20 flex w-60 flex-col items-center justify-center rounded-xl p-5 shadow-xl md:w-145 md:p-10">
       <div className="mb-3 flex flex-col items-center justify-center md:mb-10 md:w-full md:flex-row">
         <div className="flex items-center md:absolute md:left-30">
           <Image
