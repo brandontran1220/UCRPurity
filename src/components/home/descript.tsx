@@ -5,7 +5,9 @@ const descript = () => {
         The UCR Purity Test is a way for UCR students to track their experiences
         through their stay at UCR!
       </p>
-      <p>(May be judged if all actions are completed)</p>
+      <p className="font-semibold">
+        (May be judged if all actions are completed)
+      </p>
     </div>
   );
 };
