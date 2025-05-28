@@ -15,11 +15,13 @@ const NavBar = () => {
   ];
 
   return (
-    <nav className="z-10 mt-5 w-full px-8">
-      <div className="flex items-center justify-between">
+    <nav className="z-10 w-full">
+      {/* Top bar */}
+      <div className="bg-purity-blue-200 flex items-center justify-between px-8 py-4 md:bg-transparent">
+        {/* only show logo on desktop */}
         <a
           href="/"
-          className="font-Inter text-purity-black-100 text-3xl font-bold"
+          className="font-Inter text-purity-black-100 hidden text-3xl font-bold md:block"
         >
           <span className="text-purity-blue-200">UCR</span>Purity
         </a>
@@ -42,16 +44,16 @@ const NavBar = () => {
           ))}
         </ul>
 
-        {/* mobile "hamburger icon" */}
+        {/* mobile hamburger icon */}
         <button
-          className="text-purity-blue-200 text-3xl md:hidden"
+          className="text-3xl text-white md:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? <FiX /> : <FiMenu />}
         </button>
       </div>
 
-      {/* mobile nav */}
+      {/* mobile dropdown nav */}
       {menuOpen && (
         <div className="font-Inter text-purity-blue-200 mt-4 flex flex-col items-center space-y-4 text-center text-xl font-semibold md:hidden">
           {navItems.map((item) => (
