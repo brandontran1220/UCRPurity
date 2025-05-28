@@ -36,8 +36,10 @@ const LoginPage = () => {
         if (error) throw error;
         router.push("/");
       }
-    } catch (error: any) {
-      setError(error.message);
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Authentication failed";
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -52,8 +54,10 @@ const LoginPage = () => {
         },
       });
       if (error) throw error;
-    } catch (error: any) {
-      setError(error.message);
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "OAuth authentication failed";
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

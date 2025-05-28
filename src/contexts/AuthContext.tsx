@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
-import { User } from "@supabase/supabase-js";
+import { User, AuthChangeEvent, Session } from "@supabase/supabase-js";
 
 type AuthContextType = {
   user: User | null;
@@ -58,20 +58,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // Listen for auth changes (for non-guest users)
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session?.user) {
-        // User is authenticated, clear guest status
-        localStorage.removeItem("isGuest");
-        setIsGuest(false);
-        setUser(session.user);
-      } else {
-        // User signed out or no session, set as guest
-        setUser(null);
-        setIsGuest(true);
-        localStorage.setItem("isGuest", "true");
-      }
-      setLoading(false);
-    });
+    } = supabase.auth.onAuthStateChange(
+      (event: AuthChangeEvent, session: Session | null) => {
+        if (session?.user) {
+          // User is authenticated, clear guest status
+          localStorage.removeItem("isGuest");
+          setIsGuest(false);
+          setUser(session.user);
+        } else {
+          // User signed out or no session, set as guest
+          setUser(null);
+          setIsGuest(true);
+          localStorage.setItem("isGuest", "true");
+        }
+        setLoading(false);
+      },
+    );
 
     // Listen for localStorage changes (for guest status)
     const handleStorageChange = (e: StorageEvent) => {

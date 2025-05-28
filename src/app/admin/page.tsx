@@ -21,11 +21,12 @@ const AdminPage = () => {
       // Note: This requires RLS policies to be set up properly
       // For now, this will only work if you have proper admin permissions
       const { data, error } = await supabase.auth.admin.listUsers();
-
       if (error) throw error;
       setUsers(data.users);
-    } catch (error: any) {
-      setError(`Unable to fetch users: ${error.message}`);
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Unable to fetch users";
+      setError(`Unable to fetch users: ${errorMessage}`);
       console.error("Error fetching users:", error);
     } finally {
       setLoading(false);
