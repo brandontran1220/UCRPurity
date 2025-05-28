@@ -5,7 +5,7 @@ export default function Title() {
         {/* Left lines with "The Official" centered on top */}
         <div className="relative flex h-[5rem] flex-col items-center justify-center gap-3">
           {/* Centered angled label */}
-          <span className="absolute inset-0 flex translate-x-[2.2rem] translate-y-[-1.1rem] rotate-[-25deg] items-center justify-center overflow-visible text-3xl font-semibold whitespace-nowrap text-black not-even:absolute md:translate-x-[9.25rem] md:translate-y-[-1.1rem] md:text-5xl">
+          <span className="absolute inset-0 flex translate-x-[2.2rem] translate-y-[-1.1rem] rotate-[-25deg] items-center justify-center overflow-visible text-3xl font-semibold whitespace-nowrap text-black md:translate-x-[2.75rem] md:translate-y-[0rem] md:text-5xl">
             The Official
           </span>
 
