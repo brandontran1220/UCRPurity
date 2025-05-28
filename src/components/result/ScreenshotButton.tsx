@@ -53,7 +53,7 @@ const ScreenshotButton = ({
     <button
       onClick={captureScreenshot}
       disabled={isCapturing}
-      className={`flex h-fit w-fit items-center gap-2 rounded-2xl px-6 py-3 text-lg font-semibold shadow-md transition ${
+      className={` cursor-pointer flex h-fit w-fit items-center gap-2 rounded-2xl px-6 py-3 text-lg font-semibold shadow-md transition ${
         isCapturing
           ? "cursor-not-allowed bg-gray-300 text-gray-500"
           : "bg-blue-600 text-white hover:bg-blue-700"
