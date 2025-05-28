@@ -46,7 +46,7 @@ const NavBar = () => {
 
         {/* mobile hamburger icon */}
         <button
-          className="text-3xl text-white md:hidden"
+          className="ml-auto text-3xl text-white md:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? <FiX /> : <FiMenu />}
@@ -55,7 +55,7 @@ const NavBar = () => {
 
       {/* mobile dropdown nav */}
       {menuOpen && (
-        <div className="font-Inter text-purity-blue-200 mt-4 flex flex-col items-center space-y-4 text-center text-xl font-semibold md:hidden">
+        <div className="font-Inter text-purity-white-100 bg-purity-blue-200 -mt-1 flex flex-col items-center space-y-6 py-6 text-center text-xl font-semibold md:hidden">
           {navItems.map((item) => (
             <a
               key={item.href}
