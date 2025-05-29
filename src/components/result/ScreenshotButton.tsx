@@ -17,38 +17,42 @@ const ScreenshotButton = ({
 
   const captureScreenshot = async () => {
     setIsCapturing(true);
-
+  
     try {
       const element = document.getElementById(targetId);
       if (!element) {
         console.error(`Element with id "${targetId}" not found`);
         return;
       }
-      const canvas = await html2canvas(element, {
-        background: "purity-ivory-100",
+  
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
+      await new Promise((res) => setTimeout(res, 300));
+  
+      const canvas = await html2canvas(element, {// Replace with desired background
         useCORS: true,
         allowTaint: true,
       });
-
-      // Convert canvas to blob and download
-      canvas.toBlob((blob) => {
-        if (blob) {
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement("a");
-          link.href = url;
-          link.download = `${fileName}.png`;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          URL.revokeObjectURL(url);
-        }
-      }, "image/png");
+  
+      const dataUrl = canvas.toDataURL("image/png");
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = `${fileName}.png`;
+  
+      if (navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome")) {
+        // iOS Safari workaround: open in new tab
+        window.open(dataUrl, "_blank");
+      } else {
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
     } catch (error) {
       console.error("Failed to capture screenshot:", error);
     } finally {
       setIsCapturing(false);
     }
   };
+  
   return (
     <button
       onClick={captureScreenshot}
