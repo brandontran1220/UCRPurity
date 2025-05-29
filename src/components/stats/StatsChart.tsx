@@ -47,21 +47,25 @@ const renderCustomLabel = ({
   name,
 }: CustomPieLabelProps & { value: number; name: string }) => {
   const RADIAN = Math.PI / 180;
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 500;
-  const labelOffset = isMobile ? 55 : 65;
-  const imgSize = isMobile ? 0 : 50;
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768; // Changed to md breakpoint
+  const labelOffset = isMobile ? 55 : 80; // Increased offset for better spacing
+  const imgSize = isMobile ? 0 : 60; // Slightly larger images
   const radius = outerRadius + labelOffset;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy + radius * Math.sin(-midAngle * RADIAN);
-  const imgKey = name?.toLowerCase().split(" ")[0] || "";
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);  const imgKey = name?.toLowerCase().split(" ")[0] || "";
   const imgSrc = categoryImages[imgKey];
-  const spacing = 0;
+  
+  // Calculate text position to center it on the radial line
+  const textOffset = isMobile ? 0 : 50; // Increased spacing between image and text
+  const textX = cx + (radius + textOffset) * Math.cos(-midAngle * RADIAN);
+  const textY = cy + (radius + textOffset) * Math.sin(-midAngle * RADIAN);
+  
   return (
     <g>
       {!isMobile && imgSrc && (
         <image
           href={imgSrc}
-          x={x - (imgSize + spacing) / 2}
+          x={x - imgSize / 2}
           y={y - imgSize / 2}
           width={imgSize}
           height={imgSize}
@@ -69,12 +73,12 @@ const renderCustomLabel = ({
         />
       )}
       <text
-        x={isMobile ? x : x + imgSize / 2 + spacing}
-        y={y}
+        x={isMobile ? x : textX}
+        y={isMobile ? y : textY}
         fill="#333"
-        textAnchor="start"
+        textAnchor="middle"
         dominantBaseline="middle"
-        fontSize={isMobile ? 18 : 20}
+        fontSize={isMobile ? 16 : 18} // Slightly smaller text for better balance
         fontWeight="bold"
       >
         {`${value}%`}
@@ -120,34 +124,36 @@ export default function StatsChart() {
       setLoading(false);
     }
     fetchData();
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-  if (!data.length) return <div>No data available.</div>;
-
+  }, []);  if (loading) return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
+  if (!data.length) return <div className="flex justify-center items-center min-h-screen">No data available.</div>;
+  
   return (
-    <ResponsiveContainer
-      className="mb-10 flex min-h-full flex-col justify-center gap-4"
-      width="100%"
-      height={380}
-    >
-      <PieChart>
-        <Pie
-          data={data}
-          dataKey="value"
-          nameKey="name"
-          cx="50%"
-          cy="50%"
-          outerRadius={100}
-          label={(props) => renderCustomLabel({ ...props, outerRadius: 85 })} // bring label closer
-        >
-          {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-        <Tooltip formatter={(value: number) => `${value}%`} />
-        <Legend />
-      </PieChart>
-    </ResponsiveContainer>
+    <div className="flex flex-col items-center justify-center w-full min-h-full pb-10">
+      <ResponsiveContainer
+        width="100%"
+        height={500}
+      >
+        <PieChart>
+          <Pie
+            data={data}
+            dataKey="value"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
+            outerRadius={120}
+            label={(props) => renderCustomLabel({ ...props, outerRadius: 105 })}
+          >
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
+          <Tooltip formatter={(value: number) => `${value}%`} />          <Legend 
+            verticalAlign="bottom"
+            align="center"
+            wrapperStyle={{ paddingTop: "30px" }}
+          />
+        </PieChart>
+      </ResponsiveContainer>
+    </div>
   );
 }
