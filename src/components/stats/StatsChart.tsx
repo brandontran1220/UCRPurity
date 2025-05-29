@@ -52,16 +52,36 @@ const renderCustomLabel = ({
   const imgSize = isMobile ? 0 : 60; // Slightly larger images
   const radius = outerRadius + labelOffset;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy + radius * Math.sin(-midAngle * RADIAN);  const imgKey = name?.toLowerCase().split(" ")[0] || "";
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+  const imgKey = name?.toLowerCase().split(" ")[0] || "";
   const imgSrc = categoryImages[imgKey];
-  
+
   // Calculate text position to center it on the radial line
   const textOffset = isMobile ? 0 : 50; // Increased spacing between image and text
   const textX = cx + (radius + textOffset) * Math.cos(-midAngle * RADIAN);
   const textY = cy + (radius + textOffset) * Math.sin(-midAngle * RADIAN);
-  
+  // Calculate line points for connecting line
+  const lineStartRadius = outerRadius + 18; // Start exactly at the pie slice edge
+  const lineEndRadius = outerRadius + (isMobile ? 30 : 40); // Shorter lines
+  const lineStartX = cx + lineStartRadius * Math.cos(-midAngle * RADIAN);
+  const lineStartY = cy + lineStartRadius * Math.sin(-midAngle * RADIAN);
+  const lineEndX = cx + lineEndRadius * Math.cos(-midAngle * RADIAN);
+  const lineEndY = cy + lineEndRadius * Math.sin(-midAngle * RADIAN);
+
   return (
     <g>
+      {/* Connecting line */}
+      <line
+        x1={lineStartX}
+        y1={lineStartY}
+        x2={lineEndX}
+        y2={lineEndY}
+        stroke="#666"
+        strokeWidth={1.5}
+        strokeDasharray="none"
+        style={{ pointerEvents: "none" }}
+      />
       {!isMobile && imgSrc && (
         <image
           href={imgSrc}
@@ -124,16 +144,24 @@ export default function StatsChart() {
       setLoading(false);
     }
     fetchData();
-  }, []);  if (loading) return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
-  if (!data.length) return <div className="flex justify-center items-center min-h-screen">No data available.</div>;
-  
+  }, []);
+  if (loading)
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        Loading...
+      </div>
+    );
+  if (!data.length)
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        No data available.
+      </div>
+    );
   return (
-    <div className="flex flex-col items-center justify-center w-full min-h-full pb-10">
-      <ResponsiveContainer
-        width="100%"
-        height={500}
-      >
+    <div className="flex min-h-full w-full flex-col items-center justify-center pb-10">
+      <ResponsiveContainer width="100%" height={500}>
         <PieChart>
+          {" "}
           <Pie
             data={data}
             dataKey="value"
@@ -142,12 +170,43 @@ export default function StatsChart() {
             cy="50%"
             outerRadius={120}
             label={(props) => renderCustomLabel({ ...props, outerRadius: 105 })}
+            labelLine={false}
+            animationBegin={0}
+            animationDuration={800}
+            style={{ outline: "none" }}
           >
+            {" "}
             {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              <Cell
+                key={`cell-${index}`}
+                fill={COLORS[index % COLORS.length]}
+                stroke="#fff"
+                strokeWidth={2}
+                style={{
+                  cursor: "pointer",
+                  transition: "fill 0.2s ease-in-out",
+                }}
+                className="hover:brightness-110"
+              />
             ))}
           </Pie>
-          <Tooltip formatter={(value: number) => `${value}%`} />          <Legend 
+          <Tooltip
+            formatter={(value: number) => [`${value}%`, "Percentage"]}
+            labelStyle={{
+              color: "#333",
+              fontWeight: "bold",
+              fontSize: "14px",
+            }}
+            contentStyle={{
+              backgroundColor: "#fff",
+              border: "2px solid #0088FE",
+              borderRadius: "8px",
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+              padding: "10px",
+            }}
+            cursor={{ fill: "rgba(0, 136, 254, 0.1)" }}
+          />
+          <Legend
             verticalAlign="bottom"
             align="center"
             wrapperStyle={{ paddingTop: "30px" }}
