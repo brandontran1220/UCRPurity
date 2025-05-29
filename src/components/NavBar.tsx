@@ -94,7 +94,7 @@ const NavBar = () => {
       </div>{" "}
       {/* mobile dropdown nav */}
       {menuOpen && (
-        <div className="font-Inter text-purity-white-100 bg-purity-blue-200 -mt-1 flex flex-col items-center space-y-6 py-6 text-center text-xl font-semibold md:hidden">
+        <div className="font-Inter text-purity-white-100 bg-purity-blue-200 -mt-1 flex flex-col items-center space-y-6 py-6 text-center text-lg font-semibold md:hidden">
           {navItems.map((item) => (
             <a
               key={item.href}
