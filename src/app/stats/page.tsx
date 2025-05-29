@@ -1,7 +1,11 @@
+import StatsChart from "@/components/stats/StatsChart";
+import StatsTitle from "@/components/stats/StatsTitle";
+
 const Stats = () => {
   return (
-    <div className="flex min-h-full items-center justify-center">
-      <div className="text-2xl">Stats</div>
+    <div className="my-auto flex min-h-full flex-col items-center justify-center">
+      <StatsTitle />
+      <StatsChart />
     </div>
   );
 };
