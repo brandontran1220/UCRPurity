@@ -31,12 +31,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isGuest, setIsGuest] = useState(false);
   const [loading, setLoading] = useState(true);
   const supabase = createClient();
+
   useEffect(() => {
     // Check for guest login first
     const guestStatus = localStorage.getItem("isGuest");
     if (guestStatus === "true") {
       setIsGuest(true);
-      setUser(null); // Make sure user is null for guests
+      setUser(null);
       setLoading(false);
     } else {
       // Get initial session for non-guest users
@@ -44,9 +45,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         if (session?.user) {
           setUser(session.user);
           setIsGuest(false);
-          localStorage.removeItem("isGuest"); // Clear guest status if user is authenticated
+          localStorage.removeItem("isGuest");
         } else {
-          // No authenticated user, set as guest by default
           setUser(null);
           setIsGuest(true);
           localStorage.setItem("isGuest", "true");
@@ -55,18 +55,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
     }
 
-    // Listen for auth changes (for non-guest users)
+    // Listen for auth changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(
       (event: AuthChangeEvent, session: Session | null) => {
         if (session?.user) {
-          // User is authenticated, clear guest status
           localStorage.removeItem("isGuest");
           setIsGuest(false);
           setUser(session.user);
         } else {
-          // User signed out or no session, set as guest
           setUser(null);
           setIsGuest(true);
           localStorage.setItem("isGuest", "true");
@@ -93,9 +91,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       window.removeEventListener("storage", handleStorageChange);
     };
   }, [supabase.auth]);
+
   const signOut = async () => {
     await supabase.auth.signOut();
-    // After signing out, set user as guest by default
     setUser(null);
     setIsGuest(true);
     localStorage.setItem("isGuest", "true");
