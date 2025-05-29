@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import { questions } from "@/data/Questions";
 import SubmitButton from "./SubmitButton";
 import { IoIosCheckmark } from "react-icons/io";
+import { useAuth } from "@/contexts/AuthContext";
+import { saveUserScore } from "@/utils/saveScore";
 
 interface UserAnswers {
   [questionIndex: number]: boolean;
@@ -11,6 +13,7 @@ interface UserAnswers {
 
 const Questions: React.FC = () => {
   const [userAnswers, setUserAnswers] = useState<UserAnswers>({});
+  const { user, isGuest } = useAuth();
 
   useEffect(() => {
     const initialAnswers: UserAnswers = {};
@@ -33,9 +36,24 @@ const Questions: React.FC = () => {
     ).length;
     return 100 - answeredCount;
   };
-
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const score = calculateScore();
+
+    // Save score to database if user is authenticated (not a guest)
+    if (user && !isGuest) {
+      try {
+        const result = await saveUserScore(user.id, score);
+        if (result.success) {
+          console.log("Score saved to database successfully!", result.message);
+        } else {
+          console.log("Failed to save score to database:", result.message);
+        }
+      } catch (error) {
+        console.error("Error saving score:", error);
+      }
+    }
+
+    // Redirect to results page
     window.location.href = `/result?score=${score}`;
   };
 
