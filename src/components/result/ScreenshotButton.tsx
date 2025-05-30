@@ -178,10 +178,10 @@ const ScreenshotButton = ({
             </div>
             
             <div class="instructions">
-              <h3>📱 How to Save:</h3>
-              <p><strong>iPhone:</strong> Volume Up + Power Button</p>
-              <p><strong>Android:</strong> Volume Down + Power Button</p>
-              <p><strong>Desktop:</strong> Right-click → Save Image As</p>
+              <h3>💾 How to Save:</h3>
+              <p><strong>iPhone:</strong><br>Long Press Image → Save to Photos</p>
+              <p><strong>Android:</strong><br>Long Press Image → Save As Image</p>
+              <p><strong>Desktop:</strong><br>Right-Click → Save Image As</p>
             </div>
           </body>
         </html>
@@ -315,10 +315,10 @@ const ScreenshotButton = ({
             </div>
             
             <div class="instructions">
-              <h3>📱 How to Save:</h3>
-              <p><strong>iPhone:</strong> Volume Up + Power Button</p>
-              <p><strong>Android:</strong> Volume Down + Power Button</p>
-              <p><strong>Desktop:</strong> Right-click → Save Image As</p>
+              <h3>💾 How to Save:</h3>
+              <p><strong>iPhone:</strong><br>Long press image → Save to Photos</p>
+              <p><strong>Android:</strong><br>Long press image → Download image</p>
+              <p><strong>Desktop:</strong><br>Right-click → Save image as...</p>
             </div>
           </body>
         </html>
