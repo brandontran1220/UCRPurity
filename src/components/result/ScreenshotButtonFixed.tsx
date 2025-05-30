@@ -51,73 +51,26 @@ const ScreenshotButtonFixed = ({
         `Capturing element with ID: ${targetId}, dimensions: ${rect.width}x${rect.height}`,
       );
 
+      // For iOS, use a simpler approach
+      if (isIOS()) {
+        // On iOS, just show instructions for manual screenshot
+        setIsCapturing(false);
+        showManualScreenshotInstructions();
+        return;
+      }
+
       // Wait a moment for any animations to complete
-      await new Promise((resolve) => setTimeout(resolve, 300));
-
-      // Fix modern CSS colors that html2canvas can't parse
-      const fixModernColors = (element: HTMLElement) => {
-        const walker = document.createTreeWalker(
-          element,
-          NodeFilter.SHOW_ELEMENT,
-        );
-
-        const elements: HTMLElement[] = [];
-        let node = walker.nextNode();
-        while (node) {
-          elements.push(node as HTMLElement);
-          node = walker.nextNode();
-        }
-
-        elements.forEach((el) => {
-          const computedStyle = window.getComputedStyle(el);
-
-          // Fix background colors
-          if (
-            computedStyle.backgroundColor &&
-            computedStyle.backgroundColor.includes("oklch")
-          ) {
-            el.style.backgroundColor = "#fefdf8"; // fallback background
-          }
-
-          // Fix text colors
-          if (computedStyle.color && computedStyle.color.includes("oklch")) {
-            el.style.color = "#000000"; // fallback text color
-          }
-
-          // Fix border colors
-          if (
-            computedStyle.borderColor &&
-            computedStyle.borderColor.includes("oklch")
-          ) {
-            el.style.borderColor = "#cccccc"; // fallback border color
-          }
-        });
-      };
-
-      // Create a clone and fix colors
-      const clonedElement = element.cloneNode(true) as HTMLElement;
-      clonedElement.style.position = "absolute";
-      clonedElement.style.left = "-9999px";
-      clonedElement.style.top = "0";
-      document.body.appendChild(clonedElement);
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       let canvas: HTMLCanvasElement;
       try {
-        fixModernColors(clonedElement);
-
-        // Try capturing the cloned element
-        canvas = await html2canvas(clonedElement, {
+        // Simple html2canvas call for desktop
+        canvas = await html2canvas(element, {
           background: "#fefdf8",
-          useCORS: true,
-          allowTaint: false,
           logging: false,
         });
-
-        // Clean up
-        document.body.removeChild(clonedElement);
       } catch (error) {
-        // Clean up and try fallback
-        document.body.removeChild(clonedElement);
+        console.error("html2canvas failed:", error);
         throw error;
       }
 
@@ -198,6 +151,130 @@ const ScreenshotButtonFixed = ({
       }
     } finally {
       setIsCapturing(false);
+    }
+  };
+
+  // Show manual screenshot instructions for iOS
+  const showManualScreenshotInstructions = () => {
+    const instructionsHTML = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>UCR Purity Test - Screenshot Instructions</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <meta charset="utf-8">
+          <style>
+            body {
+              margin: 0;
+              padding: 20px;
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              color: white;
+              text-align: center;
+              line-height: 1.6;
+              min-height: 100vh;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+            .container {
+              max-width: 400px;
+              background: rgba(255, 255, 255, 0.1);
+              border-radius: 20px;
+              padding: 30px;
+              backdrop-filter: blur(10px);
+              border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+            h1 {
+              font-size: 28px;
+              margin: 0 0 20px 0;
+              font-weight: 700;
+            }
+            .step {
+              background: rgba(255, 255, 255, 0.2);
+              border-radius: 12px;
+              padding: 20px;
+              margin: 20px 0;
+              text-align: left;
+              border-left: 4px solid #fff;
+            }
+            .step-number {
+              display: inline-block;
+              background: #fff;
+              color: #667eea;
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+              text-align: center;
+              line-height: 30px;
+              font-weight: bold;
+              margin-right: 15px;
+              font-size: 16px;
+            }
+            .step-text {
+              display: inline-block;
+              vertical-align: top;
+              max-width: calc(100% - 45px);
+              font-size: 16px;
+              font-weight: 500;
+            }
+            .back-btn {
+              background: #fff;
+              color: #667eea;
+              padding: 15px 30px;
+              border-radius: 12px;
+              text-decoration: none;
+              font-weight: 600;
+              font-size: 16px;
+              margin-top: 20px;
+              display: inline-block;
+              transition: transform 0.2s ease;
+            }
+            .back-btn:hover {
+              transform: translateY(-2px);
+            }
+            .emoji {
+              font-size: 48px;
+              margin-bottom: 20px;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="emoji">📱</div>
+            <h1>Take a Screenshot</h1>
+            
+            <div class="step">
+              <span class="step-number">1</span>
+              <span class="step-text">Press and hold the <strong>Volume Up</strong> button</span>
+            </div>
+            
+            <div class="step">
+              <span class="step-number">2</span>
+              <span class="step-text">While holding, quickly press the <strong>Power</strong> button</span>
+            </div>
+            
+            <div class="step">
+              <span class="step-number">3</span>
+              <span class="step-text">Your screen will flash and the screenshot will be saved to Photos</span>
+            </div>
+            
+            <a href="javascript:window.close()" class="back-btn">
+              ← Go Back
+            </a>
+          </div>
+        </body>
+      </html>
+    `;
+
+    const newWindow = window.open("", "_blank");
+    if (newWindow) {
+      newWindow.document.write(instructionsHTML);
+      newWindow.document.close();
+    } else {
+      alert(
+        "📱 To save your result:\n\n1. Press Volume Up + Power buttons at the same time\n2. Your screen will flash\n3. Check your Photos app\n\nPlease allow popups for better instructions.",
+      );
     }
   };
 
