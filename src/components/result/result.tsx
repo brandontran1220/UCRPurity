@@ -5,10 +5,12 @@ import happyRice from "@/public/happyRice.svg";
 import sillyRice from "@/public/sillyRice.svg";
 import TakeAgainBut from "./takeAgainBut";
 import ScreenshotButton from "./ScreenshotButton";
+import CopyLink from "./copyLink"; // Import your CopyLink component
 
 type ResultProps = {
   score: number;
 };
+
 export default function Result({ score }: ResultProps) {
   const riceProfiles = [
     {
@@ -28,6 +30,7 @@ export default function Result({ score }: ResultProps) {
       message: "get out and do more!",
     },
   ];
+
   let riceImage;
   let resultMessage;
   let avatarName;
@@ -55,7 +58,7 @@ export default function Result({ score }: ResultProps) {
       {/* Screenshot target container */}
       <div id="result-screenshot" className="py-8">
         <div className="flex flex-col items-center md:flex-row">
-          <Image src={riceImage} alt="sad Rice" width={300} height={300} />
+          <Image src={riceImage} alt="Rice Image" width={300} height={300} />
 
           <div className="flex flex-col items-center justify-center">
             <h1 className="text-5xl">Your Score</h1>
@@ -74,9 +77,10 @@ export default function Result({ score }: ResultProps) {
             The UCRPurity Test was created by the Purified Rice Team
           </p>
         </div>
-      </div>{" "}
+      </div>
+
       {/* Buttons outside screenshot area */}
-      <div className="flex items-center gap-4 pb-15">
+      <div className="flex items-center gap-4 pb-8">
         <TakeAgainBut />
         <ScreenshotButton
           score={score}
@@ -84,6 +88,11 @@ export default function Result({ score }: ResultProps) {
           resultMessage={resultMessage}
           riceImageSrc={riceImage.src}
         />
+      </div>
+
+      {/* Copy Link Button at the bottom */}
+      <div>
+        <CopyLink />
       </div>
     </div>
   );
