@@ -15,44 +15,64 @@ const ScreenshotButton = ({
 }: ScreenshotButtonProps) => {
   const [isCapturing, setIsCapturing] = useState(false);
 
+  const isMobile = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
   const captureScreenshot = async () => {
     setIsCapturing(true);
-  
+
     try {
       const element = document.getElementById(targetId);
       if (!element) {
         console.error(`Element with id "${targetId}" not found`);
         return;
       }
-  
-      element.scrollIntoView({ behavior: "smooth", block: "center" });
-      await new Promise((res) => setTimeout(res, 300));
-  
-      const canvas = await html2canvas(element, {// Replace with desired background
+
+      const canvas = await html2canvas(element, {
+        backgroundColor: "#ffffff",
         useCORS: true,
         allowTaint: true,
       });
-  
-      const dataUrl = canvas.toDataURL("image/png");
-      const link = document.createElement("a");
-      link.href = dataUrl;
-      link.download = `${fileName}.png`;
-  
-      if (navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome")) {
-        // iOS Safari workaround: open in new tab
-        window.open(dataUrl, "_blank");
-      } else {
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
+
+      canvas.toBlob((blob) => {
+        if (!blob) return;
+
+        const url = URL.createObjectURL(blob);
+
+        if (isMobile()) {
+          // 📱 Open in new tab with instruction
+          const newTab = window.open();
+          if (newTab) {
+            newTab.document.write(`
+              <html>
+                <head><title>Save Screenshot</title></head>
+                <body style="margin:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:white;">
+                  <img src="${url}" style="max-width:100vw;max-height:90vh;" />
+                  <p style="font-family:sans-serif;padding:1rem;text-align:center;">
+                    Long-press the image to save or share it
+                  </p>
+                </body>
+              </html>
+            `);
+            newTab.document.close();
+          }
+        } else {
+          // 💻 Download on desktop
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = `${fileName}.png`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+        }
+      }, "image/png");
     } catch (error) {
       console.error("Failed to capture screenshot:", error);
     } finally {
       setIsCapturing(false);
     }
   };
-  
+
   return (
     <button
       onClick={captureScreenshot}
@@ -70,8 +90,9 @@ const ScreenshotButton = ({
         </>
       ) : (
         <>
-          <HiCamera className="h-5 w-5" />
-          Screenshot
+          <div>
+          Save to Gallery
+          </div>
         </>
       )}
     </button>
