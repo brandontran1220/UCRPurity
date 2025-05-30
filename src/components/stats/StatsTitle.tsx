@@ -7,7 +7,7 @@ const StatsTitle = () => {
           Purity Test Community Statistics
         </span>
       </p>
-    </div>
+    </div> // updated
   );
 };
 
