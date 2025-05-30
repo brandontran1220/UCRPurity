@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import html2canvas from "html2canvas";
-import { HiCamera } from "react-icons/hi2";
 
 interface ScreenshotButtonProps {
   targetId: string;
@@ -28,7 +27,6 @@ const ScreenshotButton = ({
       }
 
       const canvas = await html2canvas(element, {
-        backgroundColor: "#ffffff",
         useCORS: true,
         allowTaint: true,
       });
@@ -90,9 +88,7 @@ const ScreenshotButton = ({
         </>
       ) : (
         <>
-          <div>
-          Save to Gallery
-          </div>
+          <div>Save to Gallery</div>
         </>
       )}
     </button>
