@@ -10,7 +10,7 @@ const CopyLink = () => {
       await navigator.clipboard.writeText(link);
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
-    } catch (err) {
+    } catch {
       setCopied(false);
     }
   };
