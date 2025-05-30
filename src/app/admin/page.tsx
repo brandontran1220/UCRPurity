@@ -22,7 +22,11 @@ const AdminPage = () => {
   >([]);
   const [isAuthorized, setIsAuthorized] = useState(false);
   // List of authorized admin emails (you can modify this)
-  const adminEmails = ["brandontran1220@gmail.com", "btran159@ucr.edu"];
+  const adminEmails = [
+    "brandontran1220@gmail.com",
+    "btran159@ucr.edu",
+    "aaronhuynh2004@gmail.com",
+  ];
 
   useEffect(() => {
     if (user && !loading) {
