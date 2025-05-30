@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import html2canvas from "html2canvas";
+import { HiCamera } from "react-icons/hi2";
 
 interface ScreenshotButtonProps {
   targetId: string;
@@ -14,8 +15,6 @@ const ScreenshotButton = ({
 }: ScreenshotButtonProps) => {
   const [isCapturing, setIsCapturing] = useState(false);
 
-  const isMobile = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
   const captureScreenshot = async () => {
     setIsCapturing(true);
 
@@ -25,36 +24,16 @@ const ScreenshotButton = ({
         console.error(`Element with id "${targetId}" not found`);
         return;
       }
-
       const canvas = await html2canvas(element, {
+        background: "purity-ivory-100",
         useCORS: true,
         allowTaint: true,
       });
 
+      // Convert canvas to blob and download
       canvas.toBlob((blob) => {
-        if (!blob) return;
-
-        const url = URL.createObjectURL(blob);
-
-        if (isMobile()) {
-          // 📱 Open in new tab with instruction
-          const newTab = window.open();
-          if (newTab) {
-            newTab.document.write(`
-              <html>
-                <head><title>Save Screenshot</title></head>
-                <body style="margin:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:white;">
-                  <img src="${url}" style="max-width:100vw;max-height:90vh;" />
-                  <p style="font-family:sans-serif;padding:1rem;text-align:center;">
-                    Long-press the image to save or share it
-                  </p>
-                </body>
-              </html>
-            `);
-            newTab.document.close();
-          }
-        } else {
-          // 💻 Download on desktop
+        if (blob) {
+          const url = URL.createObjectURL(blob);
           const link = document.createElement("a");
           link.href = url;
           link.download = `${fileName}.png`;
@@ -70,7 +49,6 @@ const ScreenshotButton = ({
       setIsCapturing(false);
     }
   };
-
   return (
     <button
       onClick={captureScreenshot}
@@ -88,7 +66,8 @@ const ScreenshotButton = ({
         </>
       ) : (
         <>
-          <div>Save to Gallery</div>
+          <HiCamera className="h-5 w-5" />
+          Screenshot
         </>
       )}
     </button>
