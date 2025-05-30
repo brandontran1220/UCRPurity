@@ -15,6 +15,32 @@ const ScreenshotButton = ({
 }: ScreenshotButtonProps) => {
   const [isCapturing, setIsCapturing] = useState(false);
 
+  // Detect Safari browser
+  const isSafari = () => {
+    return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  };
+
+  // Detect iOS devices (including iPad Pro with iPadOS)
+  const isIOS = () => {
+    return (
+      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1) ||
+      (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+    );
+  };
+
+  // Detect mobile devices
+  const isMobile = () => {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent,
+    );
+  };
+
+  // Check if browser supports native share API
+  const canShare = () => {
+    return "share" in navigator && "canShare" in navigator;
+  };
+
   const captureScreenshot = async () => {
     setIsCapturing(true);
 
@@ -24,29 +50,293 @@ const ScreenshotButton = ({
         console.error(`Element with id "${targetId}" not found`);
         return;
       }
+
+      // Enhanced html2canvas options for better Safari/iOS compatibility
       const canvas = await html2canvas(element, {
-        background: "purity-ivory-100",
+        background: "#fefdf8",
         useCORS: true,
-        allowTaint: true,
+        allowTaint: false,
+        logging: false,
       });
 
-      // Convert canvas to blob and download
-      canvas.toBlob((blob) => {
-        if (blob) {
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement("a");
-          link.href = url;
-          link.download = `${fileName}.png`;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          URL.revokeObjectURL(url);
+      // Try native share first on iOS if available
+      if (isIOS() && canShare()) {
+        try {
+          canvas.toBlob(
+            async (blob) => {
+              if (blob) {
+                const file = new File([blob], `${fileName}.png`, {
+                  type: "image/png",
+                });
+
+                if (
+                  navigator.canShare &&
+                  navigator.canShare({ files: [file] })
+                ) {
+                  await navigator.share({
+                    title: "UCR Purity Test Result",
+                    text: "Check out my UCR Purity Test score!",
+                    files: [file],
+                  });
+                  return;
+                }
+              }
+              // Fallback to image tab if share fails
+              showImageInNewTab(canvas);
+            },
+            "image/png",
+            0.8,
+          );
+          return;
+        } catch {
+          console.log("Native share failed, falling back to image display");
+          // Continue to fallback method
         }
-      }, "image/png");
+      }
+
+      // For Safari (macOS and iOS) or mobile devices
+      if (isSafari() || isIOS() || isMobile()) {
+        showImageInNewTab(canvas);
+      } else {
+        // For all other browsers: Standard download
+        canvas.toBlob(
+          (blob) => {
+            if (blob) {
+              const url = URL.createObjectURL(blob);
+              const link = document.createElement("a");
+              link.href = url;
+              link.download = `${fileName}.png`;
+              link.style.display = "none";
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+              URL.revokeObjectURL(url);
+            }
+          },
+          "image/png",
+          0.9,
+        );
+      }
     } catch (error) {
       console.error("Failed to capture screenshot:", error);
+
+      // Enhanced error handling for different platforms
+      let errorMsg = "Screenshot failed. ";
+      if (isIOS()) {
+        errorMsg +=
+          "Please try taking a manual screenshot using your device's screenshot function (Volume Up + Power button).";
+      } else if (isSafari()) {
+        errorMsg +=
+          "Please try using Chrome or Firefox, or take a manual screenshot.";
+      } else {
+        errorMsg += "Please try again or take a manual screenshot.";
+      }
+
+      alert(errorMsg);
     } finally {
       setIsCapturing(false);
+    }
+  };
+
+  // Helper function to show image in new tab with enhanced instructions
+  const showImageInNewTab = (canvas: HTMLCanvasElement) => {
+    const imageDataURL = canvas.toDataURL("image/png", 0.8);
+
+    const newWindow = window.open("", "_blank");
+    if (newWindow) {
+      newWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>UCR Purity Test Result</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta charset="utf-8">
+            <style>
+              body {
+                margin: 0;
+                padding: 15px;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+                background: #f8f9fa;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                min-height: 100vh;
+                box-sizing: border-box;
+                line-height: 1.5;
+              }
+              .container {
+                max-width: 95%;
+                width: 100%;
+                text-align: center;
+              }
+              .image-container {
+                background: white;
+                border-radius: 16px;
+                padding: 15px;
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+                margin-bottom: 25px;
+                display: inline-block;
+                max-width: 100%;
+              }
+              img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 12px;
+                display: block;
+                touch-action: manipulation;
+              }
+              .instructions {
+                background: white;
+                border-radius: 16px;
+                padding: 20px;
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+                max-width: 450px;
+                margin: 0 auto;
+              }
+              h2 {
+                color: #1a1a1a;
+                margin: 0 0 15px 0;
+                font-size: 20px;
+                font-weight: 600;
+              }
+              p {
+                color: #666;
+                margin: 8px 0;
+                font-size: 14px;
+              }
+              .step {
+                background: #f1f3f4;
+                border-radius: 10px;
+                padding: 12px 15px;
+                margin: 10px 0;
+                text-align: left;
+                border-left: 4px solid #4285f4;
+                font-size: 14px;
+              }
+              .platform-specific {
+                display: none;
+              }
+              .ios-instructions {
+                display: ${isIOS() ? "block" : "none"};
+              }
+              .safari-mac-instructions {
+                display: ${isSafari() && !isIOS() ? "block" : "none"};
+              }
+              .android-instructions {
+                display: ${isMobile() && !isIOS() ? "block" : "none"};
+              }
+              .highlight {
+                background: #e8f0fe;
+                padding: 15px;
+                border-radius: 10px;
+                border: 2px solid #4285f4;
+                margin: 15px 0;
+              }
+              .emoji {
+                font-size: 18px;
+                margin-right: 8px;
+              }
+              @media (max-width: 480px) {
+                .container { max-width: 100%; }
+                .instructions { padding: 15px; margin: 0 10px; }
+                h2 { font-size: 18px; }
+              }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <div class="image-container">
+                <img src="${imageDataURL}" alt="UCR Purity Test Result" id="result-image" />
+              </div>
+              
+              <div class="instructions">
+                <h2>📸 Save Your Result</h2>
+                
+                <div class="ios-instructions platform-specific">
+                  <div class="highlight">
+                    <p><strong>📱 iPhone/iPad Instructions:</strong></p>
+                  </div>
+                  <div class="step">
+                    <span class="emoji">1️⃣</span>
+                    <strong>Long press</strong> on the image above
+                  </div>
+                  <div class="step">
+                    <span class="emoji">2️⃣</span>
+                    Select <strong>"Save to Photos"</strong> or <strong>"Add to Photos"</strong>
+                  </div>
+                  <div class="step">
+                    <span class="emoji">3️⃣</span>
+                    Find your screenshot in the <strong>Photos app</strong>
+                  </div>
+                  <p style="margin-top: 15px; font-style: italic; color: #888;">
+                    💡 Tip: You can also take a regular screenshot using Volume Up + Power button
+                  </p>
+                </div>
+                
+                <div class="safari-mac-instructions platform-specific">
+                  <div class="highlight">
+                    <p><strong>🖥️ Safari on Mac Instructions:</strong></p>
+                  </div>
+                  <div class="step">
+                    <span class="emoji">1️⃣</span>
+                    <strong>Right-click</strong> on the image above
+                  </div>
+                  <div class="step">
+                    <span class="emoji">2️⃣</span>
+                    Select <strong>"Save Image As..."</strong> or <strong>"Download Image"</strong>
+                  </div>
+                  <div class="step">
+                    <span class="emoji">3️⃣</span>
+                    Choose your <strong>download location</strong> and save
+                  </div>
+                  <p style="margin-top: 15px; font-style: italic; color: #888;">
+                    💡 Alternative: Try using Chrome or Firefox for automatic downloads
+                  </p>
+                </div>
+                
+                <div class="android-instructions platform-specific">
+                  <div class="highlight">
+                    <p><strong>📱 Android Instructions:</strong></p>
+                  </div>
+                  <div class="step">
+                    <span class="emoji">1️⃣</span>
+                    <strong>Long press</strong> on the image above
+                  </div>
+                  <div class="step">
+                    <span class="emoji">2️⃣</span>
+                    Select <strong>"Download image"</strong> or <strong>"Save image"</strong>
+                  </div>
+                  <div class="step">
+                    <span class="emoji">3️⃣</span>
+                    Check your <strong>Downloads folder</strong> or <strong>Gallery</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <script>
+              // Add touch feedback for iOS
+              if (${isIOS()}) {
+                const img = document.getElementById('result-image');
+                img.style.webkitUserSelect = 'none';
+                img.style.webkitTouchCallout = 'default';
+                
+                // Prevent context menu on long press to make save easier
+                img.addEventListener('contextmenu', function(e) {
+                  e.preventDefault();
+                  return false;
+                });
+              }
+            </script>
+          </body>
+        </html>
+      `);
+      newWindow.document.close();
+    } else {
+      // Fallback if popup is blocked
+      alert(
+        "Please allow popups for this site to save your screenshot, or take a manual screenshot using your device's screenshot function.",
+      );
     }
   };
   return (
