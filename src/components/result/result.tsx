@@ -1,10 +1,10 @@
-import Image from "next/image";
 import dirtyRice from "@/public/dirtyRice.svg";
 import neutralRice from "@/public/neutralRice.svg";
 import happyRice from "@/public/happyRice.svg";
 import sillyRice from "@/public/sillyRice.svg";
 import TakeAgainBut from "./takeAgainBut";
 import ScreenshotButtonFixed from "./ScreenshotButtonFixed";
+import DebugScreenshotButton from "./DebugScreenshotButton";
 
 type ResultProps = {
   score: number;
@@ -93,6 +93,10 @@ export default function Result({ score }: ResultProps) {
         <ScreenshotButtonFixed
           targetId="result-screenshot"
           fileName={`ucr-purity-score-${score}`}
+        />
+        <DebugScreenshotButton
+          targetId="result-screenshot"
+          fileName={`ucr-purity-score-${score}-debug`}
         />
       </div>
     </div>

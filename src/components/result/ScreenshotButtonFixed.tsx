@@ -39,77 +39,93 @@ const ScreenshotButtonFixed = ({
         return;
       }
 
+      // Check if element is visible
+      const rect = element.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) {
+        alert("The element to screenshot is not visible. Please try again.");
+        setIsCapturing(false);
+        return;
+      }
+
+      console.log(
+        `Capturing element with ID: ${targetId}, dimensions: ${rect.width}x${rect.height}`,
+      );
+
       // Wait a moment for any animations to complete
       await new Promise((resolve) => setTimeout(resolve, 300));
 
-      const canvas = await html2canvas(element, {
-        backgroundColor: "#fefdf8",
-        scale: 2, // Higher quality
-        useCORS: true,
-        allowTaint: false,
-        imageTimeout: 10000,
-        removeContainer: false,
-        logging: false,
-        width: element.offsetWidth,
-        height: element.offsetHeight,
-        onclone: (clonedDoc: Document) => {
-          // Copy all styles to the cloned document
-          const originalStyles = Array.from(document.styleSheets);
-          originalStyles.forEach((styleSheet) => {
-            try {
-              if (styleSheet.href) {
-                // External stylesheet
-                const link = clonedDoc.createElement("link");
-                link.rel = "stylesheet";
-                link.href = styleSheet.href;
-                clonedDoc.head.appendChild(link);
-              } else if (styleSheet.ownerNode) {
-                // Inline stylesheet
-                const clonedStyle = styleSheet.ownerNode.cloneNode(true);
-                clonedDoc.head.appendChild(clonedStyle);
-              }
-            } catch (e) {
-              // Cross-origin or other access issues, ignore
-              console.log("Could not clone stylesheet:", e);
-            }
-          });
+      // Fix modern CSS colors that html2canvas can't parse
+      const fixModernColors = (element: HTMLElement) => {
+        const walker = document.createTreeWalker(
+          element,
+          NodeFilter.SHOW_ELEMENT,
+        );
 
-          // Ensure all images are fully loaded and visible
-          const images = clonedDoc.querySelectorAll("img");
-          images.forEach((img: HTMLImageElement) => {
-            // Force image visibility and proper sizing
-            img.style.display = "block";
-            img.style.visibility = "visible";
-            img.style.opacity = "1";
+        const elements: HTMLElement[] = [];
+        let node = walker.nextNode();
+        while (node) {
+          elements.push(node as HTMLElement);
+          node = walker.nextNode();
+        }
 
-            // Ensure explicit sizing
-            if (img.width && img.height) {
-              img.style.width = img.width + "px";
-              img.style.height = img.height + "px";
-            }
-          });
+        elements.forEach((el) => {
+          const computedStyle = window.getComputedStyle(el);
 
-          // Ensure text is properly styled
-          const textElements = clonedDoc.querySelectorAll(
-            "h1, h2, h3, h4, h5, h6, p, span, div",
-          );
-          textElements.forEach((el: HTMLElement) => {
-            const computedStyle = window.getComputedStyle(el);
-            el.style.color = computedStyle.color;
-            el.style.fontSize = computedStyle.fontSize;
-            el.style.fontWeight = computedStyle.fontWeight;
-            el.style.fontFamily = computedStyle.fontFamily;
-            el.style.lineHeight = computedStyle.lineHeight;
-            el.style.textAlign = computedStyle.textAlign;
-          });
-        },
-      });
+          // Fix background colors
+          if (
+            computedStyle.backgroundColor &&
+            computedStyle.backgroundColor.includes("oklch")
+          ) {
+            el.style.backgroundColor = "#fefdf8"; // fallback background
+          }
+
+          // Fix text colors
+          if (computedStyle.color && computedStyle.color.includes("oklch")) {
+            el.style.color = "#000000"; // fallback text color
+          }
+
+          // Fix border colors
+          if (
+            computedStyle.borderColor &&
+            computedStyle.borderColor.includes("oklch")
+          ) {
+            el.style.borderColor = "#cccccc"; // fallback border color
+          }
+        });
+      };
+
+      // Create a clone and fix colors
+      const clonedElement = element.cloneNode(true) as HTMLElement;
+      clonedElement.style.position = "absolute";
+      clonedElement.style.left = "-9999px";
+      clonedElement.style.top = "0";
+      document.body.appendChild(clonedElement);
+
+      let canvas: HTMLCanvasElement;
+      try {
+        fixModernColors(clonedElement);
+
+        // Try capturing the cloned element
+        canvas = await html2canvas(clonedElement, {
+          background: "#fefdf8",
+          useCORS: true,
+          allowTaint: false,
+          logging: false,
+        });
+
+        // Clean up
+        document.body.removeChild(clonedElement);
+      } catch (error) {
+        // Clean up and try fallback
+        document.body.removeChild(clonedElement);
+        throw error;
+      }
 
       // Handle the screenshot based on platform
       if (isIOS() && canShare()) {
         // Try native share on iOS
         canvas.toBlob(
-          async (blob) => {
+          async (blob: Blob | null) => {
             if (blob) {
               try {
                 const file = new File([blob], `${fileName}.png`, {
@@ -143,7 +159,7 @@ const ScreenshotButtonFixed = ({
       } else {
         // Desktop/Android - direct download
         canvas.toBlob(
-          (blob) => {
+          (blob: Blob | null) => {
             if (blob) {
               const url = URL.createObjectURL(blob);
               const link = document.createElement("a");
@@ -163,13 +179,21 @@ const ScreenshotButtonFixed = ({
     } catch (error) {
       console.error("Screenshot failed:", error);
 
+      // More detailed error information
+      let errorMessage = "Screenshot failed. ";
+      if (error instanceof Error) {
+        errorMessage += `Error: ${error.message}`;
+      } else {
+        errorMessage += `Unknown error: ${String(error)}`;
+      }
+
       if (isIOS()) {
         alert(
-          "Screenshot capture failed. Please take a manual screenshot using Volume Up + Power button.",
+          `Screenshot capture failed. ${errorMessage}\n\nPlease take a manual screenshot using Volume Up + Power button.`,
         );
       } else {
         alert(
-          "Screenshot failed. Please try again or take a manual screenshot.",
+          `${errorMessage}\n\nPlease try again or take a manual screenshot.`,
         );
       }
     } finally {
