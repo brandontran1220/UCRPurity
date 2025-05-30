@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { HiCamera } from "react-icons/hi2";
+import html2canvas from "html2canvas";
 
 interface ScreenshotButtonV2Props {
   targetId: string;
@@ -226,6 +227,116 @@ const ScreenshotButtonV2 = ({
     return canvas;
   };
 
+  // Enhanced screenshot capture with proper image handling
+  const captureWithHtml2Canvas = async (
+    element: HTMLElement,
+  ): Promise<HTMLCanvasElement> => {
+    // Clone the element to avoid modifying the original
+    const clonedElement = element.cloneNode(true) as HTMLElement;
+
+    // Apply inline styles to ensure they're captured
+    const applyInlineStyles = (original: HTMLElement, clone: HTMLElement) => {
+      const originalStyle = window.getComputedStyle(original);
+      const cloneStyle = clone.style;
+
+      // Copy all computed styles as inline styles
+      for (let i = 0; i < originalStyle.length; i++) {
+        const property = originalStyle[i];
+        cloneStyle.setProperty(
+          property,
+          originalStyle.getPropertyValue(property),
+        );
+      }
+
+      // Handle children
+      for (
+        let i = 0;
+        i < original.children.length && i < clone.children.length;
+        i++
+      ) {
+        applyInlineStyles(
+          original.children[i] as HTMLElement,
+          clone.children[i] as HTMLElement,
+        );
+      }
+    };
+
+    applyInlineStyles(element, clonedElement);
+
+    // Create a temporary container
+    const tempContainer = document.createElement("div");
+    tempContainer.style.position = "fixed";
+    tempContainer.style.top = "-9999px";
+    tempContainer.style.left = "-9999px";
+    tempContainer.appendChild(clonedElement);
+    document.body.appendChild(tempContainer);
+
+    try {
+      const canvas = await html2canvas(clonedElement, {
+        backgroundColor: "#fefdf8",
+        scale: window.devicePixelRatio || 1,
+        useCORS: true,
+        allowTaint: true,
+        foreignObjectRendering: true,
+        imageTimeout: 15000,
+        removeContainer: true,
+        width: element.offsetWidth,
+        height: element.offsetHeight,
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: element.offsetWidth,
+        windowHeight: element.offsetHeight,
+        ignoreElements: (element: HTMLElement) => {
+          // Don't ignore any elements unless they're hidden
+          return (
+            element.style.display === "none" ||
+            element.style.visibility === "hidden"
+          );
+        },
+        onclone: (clonedDoc: Document) => {
+          // Ensure all styles are properly applied in the cloned document
+          const clonedBody = clonedDoc.body;
+          const originalStyles = document.querySelectorAll(
+            'style, link[rel="stylesheet"]',
+          );
+
+          originalStyles.forEach((style) => {
+            const clonedStyle = style.cloneNode(true);
+            clonedDoc.head.appendChild(clonedStyle);
+          });
+
+          // Force load any images that might not be loaded
+          const images = clonedBody.querySelectorAll("img");
+          images.forEach((img: HTMLImageElement) => {
+            if (img.src.startsWith("data:")) {
+              // Image is already loaded as data URL
+              return;
+            }
+
+            // Create a canvas to convert the image to data URL
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            const image = new Image();
+            image.crossOrigin = "anonymous";
+
+            image.onload = () => {
+              canvas.width = image.naturalWidth;
+              canvas.height = image.naturalHeight;
+              ctx?.drawImage(image, 0, 0);
+              img.src = canvas.toDataURL("image/png");
+            };
+
+            image.src = img.src;
+          });
+        },
+      } as any);
+
+      return canvas;
+    } finally {
+      document.body.removeChild(tempContainer);
+    }
+  };
+
   const captureScreenshot = async () => {
     setIsCapturing(true);
 
@@ -240,36 +351,17 @@ const ScreenshotButtonV2 = ({
 
       let canvas: HTMLCanvasElement;
 
-      // For iOS, try the manual DOM rendering approach
-      if (isIOS()) {
-        try {
-          console.log("Using iOS-optimized rendering...");
-          canvas = await renderDomToCanvas(element);
-        } catch (error) {
-          console.log(
-            "iOS manual rendering failed, trying SVG approach:",
-            error,
-          );
+      try {
+        console.log("Using html2canvas with enhanced configuration...");
+        canvas = await captureWithHtml2Canvas(element);
+      } catch (error) {
+        console.log("html2canvas failed, trying fallback method:", error);
 
-          try {
-            // Fallback to SVG approach
-            const rect = element.getBoundingClientRect();
-            const svgString = await domToSvg(element);
-            canvas = await svgToCanvas(svgString, rect.width, rect.height);
-          } catch (svgError) {
-            console.error("Both iOS methods failed:", svgError);
-            throw new Error("Screenshot capture failed on iOS device");
-          }
-        }
-      } else {
-        // For other platforms, use SVG approach
-        try {
-          const rect = element.getBoundingClientRect();
-          const svgString = await domToSvg(element);
-          canvas = await svgToCanvas(svgString, rect.width, rect.height);
-        } catch (error) {
-          console.log("SVG approach failed, using manual rendering:", error);
+        // Fallback to the manual DOM rendering for iOS
+        if (isIOS()) {
           canvas = await renderDomToCanvas(element);
+        } else {
+          throw error;
         }
       }
 
