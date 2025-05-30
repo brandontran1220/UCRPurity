@@ -159,7 +159,7 @@ export default function StatsChart() {
     );
   return (
     <div className="flex min-h-full w-full flex-col items-center justify-center pb-10">
-      <ResponsiveContainer width="100%" height={500}>
+      <ResponsiveContainer width="100%" height={600}>
         <PieChart>
           {" "}
           <Pie
