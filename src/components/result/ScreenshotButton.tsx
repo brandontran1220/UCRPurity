@@ -187,12 +187,17 @@ const ScreenshotButton = ({
         </html>
       `;
 
-      // Create blob from HTML and navigate to it directly
+      // Create blob from HTML and try to open in new tab first, fallback to same tab
       const blob = new Blob([shareableHTML], { type: "text/html" });
       const url = URL.createObjectURL(blob);
 
-      // Navigate to the blob URL in the same tab
-      window.location.href = url;
+      // Try to open in new tab first (works on most desktop browsers)
+      const newTab = window.open(url, "_blank");
+
+      // If popup was blocked, fallback to same tab navigation
+      if (!newTab || newTab.closed || typeof newTab.closed == "undefined") {
+        window.location.href = url;
+      }
     };
 
     img.onerror = () => {
@@ -323,12 +328,17 @@ const ScreenshotButton = ({
         </html>
       `;
 
-      // Create blob from HTML and navigate to it directly
+      // Create blob from HTML and try to open in new tab first, fallback to same tab
       const blob = new Blob([shareableHTML], { type: "text/html" });
       const url = URL.createObjectURL(blob);
 
-      // Navigate to the blob URL in the same tab
-      window.location.href = url;
+      // Try to open in new tab first (works on most desktop browsers)
+      const newTab = window.open(url, "_blank");
+
+      // If popup was blocked, fallback to same tab navigation
+      if (!newTab || newTab.closed || typeof newTab.closed == "undefined") {
+        window.location.href = url;
+      }
     };
 
     // Set the image source to trigger loading
