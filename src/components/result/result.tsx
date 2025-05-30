@@ -74,14 +74,15 @@ export default function Result({ score }: ResultProps) {
             The UCRPurity Test was created by the Purified Rice Team
           </p>
         </div>
-      </div>
-
+      </div>{" "}
       {/* Buttons outside screenshot area */}
       <div className="flex items-center gap-4 pb-15">
         <TakeAgainBut />
         <ScreenshotButton
-          targetId="result-screenshot"
-          fileName={`ucr-purity-score-${score}`}
+          score={score}
+          avatarName={avatarName}
+          resultMessage={resultMessage}
+          riceImageSrc={riceImage.src}
         />
       </div>
     </div>
