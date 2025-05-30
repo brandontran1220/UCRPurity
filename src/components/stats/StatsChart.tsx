@@ -216,3 +216,4 @@ export default function StatsChart() {
     </div>
   );
 }
+
