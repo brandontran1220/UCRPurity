@@ -98,7 +98,7 @@ const ScreenshotButton = ({
       // Convert canvas to image data URL
       const imageDataURL = canvas.toDataURL("image/png", 1.0);
 
-      // Create the HTML for the new tab with the generated image
+      // Create the HTML for the shareable page
       const shareableHTML = `
         <!DOCTYPE html>
         <html lang="en">
@@ -187,13 +187,12 @@ const ScreenshotButton = ({
         </html>
       `;
 
-      const newWindow = window.open("", "_blank");
-      if (newWindow) {
-        newWindow.document.write(shareableHTML);
-        newWindow.document.close();
-      } else {
-        alert("Please allow popups to open the shareable result page.");
-      }
+      // Create blob from HTML and navigate to it directly
+      const blob = new Blob([shareableHTML], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+
+      // Navigate to the blob URL in the same tab
+      window.location.href = url;
     };
 
     img.onerror = () => {
@@ -234,7 +233,7 @@ const ScreenshotButton = ({
         450,
       );
 
-      // Generate image and create new tab
+      // Generate image and create shareable page
       const imageDataURL = canvas.toDataURL("image/png", 1.0);
       const shareableHTML = `
         <!DOCTYPE html>
@@ -324,11 +323,12 @@ const ScreenshotButton = ({
         </html>
       `;
 
-      const newWindow = window.open("", "_blank");
-      if (newWindow) {
-        newWindow.document.write(shareableHTML);
-        newWindow.document.close();
-      }
+      // Create blob from HTML and navigate to it directly
+      const blob = new Blob([shareableHTML], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+
+      // Navigate to the blob URL in the same tab
+      window.location.href = url;
     };
 
     // Set the image source to trigger loading
