@@ -48,12 +48,86 @@ const ScreenshotButton = ({
       const element = document.getElementById(targetId);
       if (!element) {
         console.error(`Element with id "${targetId}" not found`);
+        setIsCapturing(false);
         return;
       }
 
-      // Enhanced html2canvas options for better Safari/iOS compatibility
+      // Wait a bit for any animations to complete
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // For iOS devices, try an alternative approach first
+      if (isIOS()) {
+        try {
+          // Alternative method: Create a high-quality canvas copy
+          const rect = element.getBoundingClientRect();
+          const tempCanvas = document.createElement("canvas");
+          const ctx = tempCanvas.getContext("2d");
+
+          if (ctx) {
+            // Set canvas size with device pixel ratio for better quality
+            const scale = window.devicePixelRatio || 1;
+            tempCanvas.width = rect.width * scale;
+            tempCanvas.height = rect.height * scale;
+            tempCanvas.style.width = rect.width + "px";
+            tempCanvas.style.height = rect.height + "px";
+            ctx.scale(scale, scale);
+
+            // Try to render using html2canvas with iOS-specific settings
+            const fallbackCanvas = await html2canvas(element, {
+              useCORS: true,
+              allowTaint: false,
+              logging: false,
+            });
+
+            // Copy the result to our high-quality canvas
+            ctx.drawImage(fallbackCanvas, 0, 0, rect.width, rect.height);
+
+            // Try native share first
+            if (canShare()) {
+              tempCanvas.toBlob(
+                async (blob) => {
+                  if (blob) {
+                    const file = new File([blob], `${fileName}.png`, {
+                      type: "image/png",
+                    });
+
+                    try {
+                      if (
+                        navigator.canShare &&
+                        navigator.canShare({ files: [file] })
+                      ) {
+                        await navigator.share({
+                          title: "UCR Purity Test Result",
+                          text: "Check out my UCR Purity Test score!",
+                          files: [file],
+                        });
+                        return;
+                      }
+                    } catch (shareErr) {
+                      console.log("Share failed:", shareErr);
+                    }
+                  }
+                  // If share fails, show in new tab
+                  showImageInNewTab(tempCanvas);
+                },
+                "image/png",
+                0.95,
+              );
+              return;
+            } else {
+              // No share API, show in new tab
+              showImageInNewTab(tempCanvas);
+              return;
+            }
+          }
+        } catch (iosError) {
+          console.log("iOS alternative method failed:", iosError);
+          // Fall through to standard method
+        }
+      }
+
+      // Standard html2canvas approach for other platforms
       const canvas = await html2canvas(element, {
-        background: "#fefdf8",
         useCORS: true,
         allowTaint: false,
         logging: false,
@@ -247,6 +321,21 @@ const ScreenshotButton = ({
             <div class="container">
               <div class="image-container">
                 <img src="${imageDataURL}" alt="UCR Purity Test Result" id="result-image" />
+                ${
+                  isIOS()
+                    ? `
+                <div style="margin-top: 15px;">
+                  <a href="${imageDataURL}" download="${fileName}.png" 
+                     style="display: inline-block; background: #007AFF; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 16px;">
+                    📥 Download Image
+                  </a>
+                  <p style="font-size: 12px; color: #666; margin-top: 8px; margin-bottom: 0;">
+                    (Tap the download button, then follow the instructions below)
+                  </p>
+                </div>
+                `
+                    : ""
+                }
               </div>
               
               <div class="instructions">
@@ -258,18 +347,22 @@ const ScreenshotButton = ({
                   </div>
                   <div class="step">
                     <span class="emoji">1️⃣</span>
-                    <strong>Long press</strong> on the image above
+                    <strong>Tap and hold</strong> on the image above until a menu appears
                   </div>
                   <div class="step">
                     <span class="emoji">2️⃣</span>
-                    Select <strong>"Save to Photos"</strong> or <strong>"Add to Photos"</strong>
+                    Tap <strong>"Save to Photos"</strong> or <strong>"Add to Photos"</strong>
                   </div>
                   <div class="step">
                     <span class="emoji">3️⃣</span>
-                    Find your screenshot in the <strong>Photos app</strong>
+                    Check the <strong>Photos app</strong> → <strong>Recents</strong> album
+                  </div>
+                  <div class="step">
+                    <span class="emoji">🔄</span>
+                    <strong>Alternative:</strong> Press <strong>Volume Up + Power</strong> buttons together to screenshot this entire page
                   </div>
                   <p style="margin-top: 15px; font-style: italic; color: #888;">
-                    💡 Tip: You can also take a regular screenshot using Volume Up + Power button
+                    💡 If the long-press doesn't work, try refreshing this page or taking a regular screenshot
                   </p>
                 </div>
                 
@@ -315,16 +408,53 @@ const ScreenshotButton = ({
             </div>
             
             <script>
-              // Add touch feedback for iOS
+              // Enhanced iOS support
               if (${isIOS()}) {
                 const img = document.getElementById('result-image');
+                
+                // Enable image saving on iOS
                 img.style.webkitUserSelect = 'none';
                 img.style.webkitTouchCallout = 'default';
+                img.style.userSelect = 'none';
+                img.style.touchAction = 'manipulation';
                 
-                // Prevent context menu on long press to make save easier
+                // Add long-press detection for iOS
+                let pressTimer = null;
+                let touchStartTime = 0;
+                
+                img.addEventListener('touchstart', function(e) {
+                  touchStartTime = Date.now();
+                  pressTimer = setTimeout(() => {
+                    // Trigger context menu after 500ms
+                    const event = new Event('contextmenu', { bubbles: true, cancelable: true });
+                    img.dispatchEvent(event);
+                  }, 500);
+                }, { passive: true });
+                
+                img.addEventListener('touchend', function(e) {
+                  if (pressTimer) {
+                    clearTimeout(pressTimer);
+                    pressTimer = null;
+                  }
+                  
+                  const touchDuration = Date.now() - touchStartTime;
+                  if (touchDuration > 500) {
+                    // Long press detected
+                    e.preventDefault();
+                  }
+                }, { passive: false });
+                
+                img.addEventListener('touchmove', function(e) {
+                  if (pressTimer) {
+                    clearTimeout(pressTimer);
+                    pressTimer = null;
+                  }
+                }, { passive: true });
+                
+                // Prevent default context menu to make our custom one work
                 img.addEventListener('contextmenu', function(e) {
-                  e.preventDefault();
-                  return false;
+                  // Don't prevent - we want the context menu to show
+                  return true;
                 });
               }
             </script>
