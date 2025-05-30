@@ -4,7 +4,7 @@ import neutralRice from "@/public/neutralRice.svg";
 import happyRice from "@/public/happyRice.svg";
 import sillyRice from "@/public/sillyRice.svg";
 import TakeAgainBut from "./takeAgainBut";
-import ScreenshotButton from "./ScreenshotButton";
+import ScreenshotButtonV2 from "./ScreenshotButtonV2";
 
 type ResultProps = {
   score: number;
@@ -79,7 +79,7 @@ export default function Result({ score }: ResultProps) {
       {/* Buttons outside screenshot area */}
       <div className="flex items-center gap-4 pb-15">
         <TakeAgainBut />
-        <ScreenshotButton
+        <ScreenshotButtonV2
           targetId="result-screenshot"
           fileName={`ucr-purity-score-${score}`}
         />
