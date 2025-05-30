@@ -44,18 +44,18 @@ const ScreenshotButton = ({
       // Set text styles and draw text
       ctx.fillStyle = "#000000";
       ctx.font = "bold 48px Inter, Arial, sans-serif";
-      ctx.textAlign = "left";
-      ctx.fillText("Your Score", 350, 200);
+      ctx.textAlign = "center";
+      ctx.fillText("Your Score", 500, 200);
 
       // Draw score number
       ctx.fillStyle = "#3b82f6";
       ctx.font = "bold 72px Inter, Arial, sans-serif";
-      ctx.fillText(score.toString(), 350, 280);
+      ctx.fillText(score.toString(), 500, 280);
 
       // Draw avatar text
       ctx.fillStyle = "#000000";
       ctx.font = "24px Inter, Arial, sans-serif";
-      ctx.fillText(`You're ${avatarName}!`, 350, 320);
+      ctx.fillText(`You're ${avatarName}!`, 500, 320);
 
       // Draw result message
       ctx.fillStyle = "#6b7280";
@@ -72,14 +72,14 @@ const ScreenshotButton = ({
         const testWidth = metrics.width;
 
         if (testWidth > 350 && n > 0) {
-          ctx.fillText(line, 350, y);
+          ctx.fillText(line, 500, y);
           line = words[n] + " ";
           y += 25;
         } else {
           line = testLine;
         }
       }
-      ctx.fillText(line, 350, y);
+      ctx.fillText(line, 500, y);
 
       // Draw footer text
       ctx.fillStyle = "#000000";
@@ -118,7 +118,6 @@ const ScreenshotButton = ({
                 background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
                 min-height: 100vh;
                 display: flex;
-                flex-direction: column;
                 align-items: center;
                 justify-content: center;
                 padding: 20px;
@@ -129,7 +128,6 @@ const ScreenshotButton = ({
                 padding: 20px;
                 border-radius: 20px;
                 box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-                margin-bottom: 30px;
               }
               
               .result-image {
@@ -139,49 +137,37 @@ const ScreenshotButton = ({
                 display: block;
               }
               
-              .download-btn {
-                background: #3b82f6;
-                color: white;
-                padding: 15px 30px;
-                border-radius: 12px;
-                text-decoration: none;
-                font-weight: 600;
-                font-size: 16px;
-                margin: 10px;
-                display: inline-block;
-                transition: background-color 0.2s ease;
-              }
-              
-              .download-btn:hover {
-                background: #2563eb;
-              }
-              
               .instructions {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
                 background: rgba(0, 0, 0, 0.8);
                 color: white;
-                padding: 20px;
-                border-radius: 15px;
-                text-align: center;
-                max-width: 500px;
-                margin-top: 20px;
+                padding: 15px 20px;
+                border-radius: 10px;
+                font-size: 14px;
+                max-width: 300px;
                 backdrop-filter: blur(10px);
               }
               
               .instructions h3 {
-                margin-bottom: 15px;
-                font-size: 18px;
+                margin-bottom: 10px;
+                font-size: 16px;
               }
               
-              .instruction-item {
-                margin: 10px 0;
-                padding: 8px;
-                background: rgba(255, 255, 255, 0.1);
-                border-radius: 8px;
+              .instructions p {
+                margin-bottom: 5px;
               }
               
               @media (max-width: 768px) {
                 .instructions {
+                  position: relative;
+                  bottom: auto;
+                  right: auto;
                   margin-top: 30px;
+                  position: fixed;
+                  bottom: 20px;
+                  right: 20px;
                 }
               }
             </style>
@@ -189,27 +175,13 @@ const ScreenshotButton = ({
           <body>
             <div class="image-container">
               <img src="${imageDataURL}" alt="UCR Purity Test Result - Score: ${score}" class="result-image" />
-              <div style="text-align: center; margin-top: 15px;">
-                <a href="${imageDataURL}" download="ucr-purity-score-${score}.png" class="download-btn">
-                  📥 Download Image
-                </a>
-              </div>
             </div>
             
             <div class="instructions">
-              <h3>💾 How to Save This Image:</h3>
-              <div class="instruction-item">
-                <strong>Desktop:</strong> Right-click on the image above → "Save Image As..."
-              </div>
-              <div class="instruction-item">
-                <strong>iPhone:</strong> Tap and hold the image → "Save to Photos"
-              </div>
-              <div class="instruction-item">
-                <strong>Android:</strong> Tap and hold the image → "Download Image"
-              </div>
-              <div class="instruction-item">
-                <strong>Alternative:</strong> Click the "Download Image" button above
-              </div>
+              <h3>📱 How to Save:</h3>
+              <p><strong>iPhone:</strong> Volume Up + Power Button</p>
+              <p><strong>Android:</strong> Volume Down + Power Button</p>
+              <p><strong>Desktop:</strong> Right-click → Save Image As</p>
             </div>
           </body>
         </html>
@@ -272,47 +244,81 @@ const ScreenshotButton = ({
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>UCR Purity Test Result - Score: ${score}</title>
             <style>
+              * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+              }
+              
               body {
-                font-family: 'Inter', sans-serif;
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
                 background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
                 min-height: 100vh;
                 display: flex;
-                flex-direction: column;
                 align-items: center;
                 justify-content: center;
                 padding: 20px;
               }
+              
               .image-container {
                 background: white;
                 padding: 20px;
                 border-radius: 20px;
                 box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
               }
+              
               .result-image {
                 max-width: 100%;
                 height: auto;
                 border-radius: 10px;
+                display: block;
               }
-              .download-btn {
-                background: #3b82f6;
+              
+              .instructions {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: rgba(0, 0, 0, 0.8);
                 color: white;
-                padding: 15px 30px;
-                border-radius: 12px;
-                text-decoration: none;
-                font-weight: 600;
-                margin-top: 15px;
-                display: inline-block;
+                padding: 15px 20px;
+                border-radius: 10px;
+                font-size: 14px;
+                max-width: 300px;
+                backdrop-filter: blur(10px);
+              }
+              
+              .instructions h3 {
+                margin-bottom: 10px;
+                font-size: 16px;
+              }
+              
+              .instructions p {
+                margin-bottom: 5px;
+              }
+              
+              @media (max-width: 768px) {
+                .instructions {
+                  position: relative;
+                  bottom: auto;
+                  right: auto;
+                  margin-top: 30px;
+                  position: fixed;
+                  bottom: 20px;
+                  right: 20px;
+                }
               }
             </style>
           </head>
           <body>
             <div class="image-container">
-              <img src="${imageDataURL}" alt="UCR Purity Test Result" class="result-image" />
-              <div style="text-align: center;">
-                <a href="${imageDataURL}" download="ucr-purity-score-${score}.png" class="download-btn">
-                  📥 Download Image
-                </a>
-              </div>
+              <img src="${imageDataURL}" alt="UCR Purity Test Result - Score: ${score}" class="result-image" />
+            </div>
+            
+            <div class="instructions">
+              <h3>📱 How to Save:</h3>
+              <p><strong>iPhone:</strong> Volume Up + Power Button</p>
+              <p><strong>Android:</strong> Volume Down + Power Button</p>
+              <p><strong>Desktop:</strong> Right-click → Save Image As</p>
             </div>
           </body>
         </html>
