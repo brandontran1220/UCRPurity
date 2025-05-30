@@ -35,15 +35,15 @@ export default function Result({ score }: ResultProps) {
   let resultMessage;
   let avatarName;
 
-  if (score >= 0 && score <= 25) {
+  if (score >= 0 && score <= 35) {
     riceImage = dirtyRice;
     avatarName = riceProfiles[0].avatar;
     resultMessage = riceProfiles[0].message;
-  } else if (score > 25 && score <= 50) {
+  } else if (score > 35 && score <= 60) {
     riceImage = neutralRice;
     avatarName = riceProfiles[1].avatar;
     resultMessage = riceProfiles[1].message;
-  } else if (score > 50 && score <= 75) {
+  } else if (score > 60 && score <= 85) {
     riceImage = sillyRice;
     avatarName = riceProfiles[2].avatar;
     resultMessage = riceProfiles[2].message;

@@ -130,9 +130,9 @@ export default function StatsChart() {
         dirty: 0,
       };
       userScores?.forEach((row: { score: number }) => {
-        if (row.score >= 76) counts.pure += 1;
-        else if (row.score >= 51) counts.silly += 1;
-        else if (row.score >= 26) counts.average += 1;
+        if (row.score >= 86) counts.pure += 1;
+        else if (row.score >= 61) counts.silly += 1;
+        else if (row.score >= 36) counts.average += 1;
         else counts.dirty += 1;
       });
       const total = Object.values(counts).reduce((sum, val) => sum + val, 0);
