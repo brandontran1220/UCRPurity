@@ -55,7 +55,7 @@ export const questions = [
   "Gotten frustrated with Duo Mobile",
   "Been to Getaway Cafe (before it closed)",
   "Been to the infamous Seaside Bakery",
-  "Hoped the fence at the GlenMor pool",
+  "Hopped the fence at the GlenMor pool",
   "Been to 7 Leaves at UV for a fundraiser",
   "Explored 5+ UCR student organizations on campus",
   "Crashed a club meeting just for the free food",
@@ -96,7 +96,7 @@ export const questions = [
   "Been to Blue Bowl",
   "Walked into the Business Building super sweaty after walking up the LONG ASS hill",
   "Been to Riverside Food Lab",
-  "Been to Rising Savor",
+  "Been to the Hammocks at ND",
   "Bought a poster from the pop-up merchants",
   "Realized you love UCR... despite everything",
 ];
