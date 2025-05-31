@@ -18,7 +18,7 @@ const CopyLink = () => {
   return (
     <div className="flex flex-col items-center justify-center md:pb-8">
       <p className="m-[20px] text-center text-xl font-medium">
-        See what type of rice grain your friends are!
+        See what type of Rice Grain your friends are!
       </p>
       <button
         onClick={handleCopy}
